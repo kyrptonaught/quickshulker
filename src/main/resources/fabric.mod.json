@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "quickshulker",
+  "version": "0.0.5",
+  "name": "Quick Shulker",
+  "description": "Quickly open Shulker boxes",
+  "authors": [
+    "kyrptonaught"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kyrptonaught/quickshulker",
+    "sources": "https://github.com/kyrptonaught/quickshulker"
+  },
+  "license": "MIT",
+  "icon": "assets/quickshulker/icon.png",
+  "environment": "*",
+  "mixins": [
+    {
+      "config": "net.kyrptonaught.quickshulker.json",
+      "environment": "client"
+    }
+  ],
+  "entrypoints": {
+    "main": [
+      "net.kyrptonaught.quickshulker.QuickShulkerMod"
+    ],
+    "client": [
+      "net.kyrptonaught.quickshulker.QuickShulkerMod"
+    ],
+    "modmenu": [
+      "net.kyrptonaught.quickshulker.config.modmenu.ModMenuIntegration"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}
