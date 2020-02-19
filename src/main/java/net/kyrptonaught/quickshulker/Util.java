@@ -2,7 +2,9 @@ package net.kyrptonaught.quickshulker;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.kyrptonaught.quickshulker.api.QuickOpenable;
+import net.kyrptonaught.quickshulker.api.QuickOpenableRegistry;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,7 +24,9 @@ public class Util {
 
     private static Boolean isOpenableItem(ItemStack stack) {
         Item item = stack.getItem();
-        return (((BlockItem) item).getBlock() instanceof QuickOpenable);
+        if (((BlockItem) item).getBlock() instanceof ShulkerBoxBlock)
+            return  QuickOpenableRegistry.consumers.containsKey(Blocks.SHULKER_BOX);
+        return  QuickOpenableRegistry.consumers.containsKey(((BlockItem) item).getBlock());
     }
 
     private static void SendOpenPacket(PlayerInventory playerInv, ItemStack stack) {

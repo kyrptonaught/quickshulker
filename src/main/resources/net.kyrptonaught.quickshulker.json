@@ -3,9 +3,7 @@
   "package": "net.kyrptonaught.quickshulker.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ShulkerBoxMixin",
-    "ScreenMixin",
-    "EnderChestMixin"
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
