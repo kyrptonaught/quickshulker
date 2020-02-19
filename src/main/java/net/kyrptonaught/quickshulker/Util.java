@@ -2,19 +2,13 @@ package net.kyrptonaught.quickshulker;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.kyrptonaught.quickshulker.api.ItemStackInventory;
 import net.kyrptonaught.quickshulker.api.QuickOpenable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.container.ShulkerBoxContainer;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.DefaultedList;
 import org.lwjgl.glfw.GLFW;
 
 public class Util {
@@ -35,14 +29,6 @@ public class Util {
         OpenShulkerPacket.sendOpenPacket(playerInv.getSlotWithStack(stack));
     }
 
-    public static ShulkerBoxContainer getContainer(int id, PlayerEntity player, ItemStack usedStack) {
-        CompoundTag compoundTag = usedStack.getSubTag("BlockEntityTag");
-        DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(27, ItemStack.EMPTY);
-        if (compoundTag != null && compoundTag.contains("Items", 9)) {
-            Inventories.fromTag(compoundTag, itemStacks);
-        }
-        return new ShulkerBoxContainer(id, player.inventory, new ItemStackInventory(usedStack, itemStacks));
-    }
 
     public static InputUtil.KeyCode keycode;
 

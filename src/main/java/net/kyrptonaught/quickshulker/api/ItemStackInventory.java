@@ -12,10 +12,19 @@ public class ItemStackInventory extends BasicInventory {
     private ItemStack itemStack;
     private int SIZE;
 
-    public ItemStackInventory(ItemStack stack, DefaultedList<ItemStack> stacks) {
-        super(stacks.toArray(new ItemStack[stacks.size()]));
+    public ItemStackInventory(ItemStack stack, int SIZE) {
+        super(getStacks(stack).toArray(new ItemStack[SIZE]));
         itemStack = stack;
-        this.SIZE = stacks.size();
+        this.SIZE = SIZE;
+    }
+
+    private static DefaultedList<ItemStack> getStacks(ItemStack usedStack) {
+        CompoundTag compoundTag = usedStack.getSubTag("BlockEntityTag");
+        DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(27, ItemStack.EMPTY);
+        if (compoundTag != null && compoundTag.contains("Items", 9)) {
+            Inventories.fromTag(compoundTag, itemStacks);
+        }
+        return itemStacks;
     }
 
     @Override
