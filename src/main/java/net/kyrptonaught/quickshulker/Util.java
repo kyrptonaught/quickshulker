@@ -2,8 +2,6 @@ package net.kyrptonaught.quickshulker;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.EnderChestBlock;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.container.ShulkerBoxContainer;
@@ -28,22 +26,20 @@ public class Util {
 
     private static Boolean isOpenableItem(ItemStack stack) {
         Item item = stack.getItem();
-        return item instanceof BlockItem &&
-                (((BlockItem) item).getBlock() instanceof ShulkerBoxBlock || ((BlockItem) item).getBlock() instanceof EnderChestBlock);
+        return (((BlockItem) item).getBlock() instanceof QuickOpenable);
     }
 
     private static void SendOpenPacket(PlayerInventory playerInv, ItemStack stack) {
         OpenShulkerPacket.sendOpenPacket(playerInv.getSlotWithStack(stack));
     }
 
-    static ShulkerBoxContainer getContainer(int id, PlayerEntity player, int invSlot) {
-        ItemStack stack = player.inventory.getInvStack(invSlot);
-        CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
+    public static ShulkerBoxContainer getContainer(int id, PlayerEntity player, ItemStack usedStack) {
+        CompoundTag compoundTag = usedStack.getSubTag("BlockEntityTag");
         DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(27, ItemStack.EMPTY);
         if (compoundTag != null && compoundTag.contains("Items", 9)) {
             Inventories.fromTag(compoundTag, itemStacks);
         }
-        return new ShulkerBoxContainer(id, player.inventory, new ShulkerInventory(stack, itemStacks));
+        return new ShulkerBoxContainer(id, player.inventory, new ShulkerInventory(usedStack, itemStacks));
     }
 
     public static InputUtil.KeyCode keycode;

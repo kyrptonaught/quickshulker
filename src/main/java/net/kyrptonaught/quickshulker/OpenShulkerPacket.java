@@ -4,15 +4,29 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.container.GenericContainer;
 import net.minecraft.container.SimpleNamedContainerFactory;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.packet.CustomPayloadC2SPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class OpenShulkerPacket {
     private static final Identifier OPEN_SHULKER_PACKET = new Identifier(QuickShulkerMod.MOD_ID, "open_shulker_packet");
@@ -22,12 +36,9 @@ public class OpenShulkerPacket {
             int invSlot = packetByteBuf.readInt();
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity player = packetContext.getPlayer();
-                if (player.inventory.getInvStack(invSlot).getItem().equals(Items.ENDER_CHEST)) {
-                    player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
-                            GenericContainer.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")));
-                } else
-                    player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
-                            Util.getContainer(i, playerEntity, invSlot), new TranslatableText("container.shulkerBox")));
+                Item item = player.inventory.getInvStack(invSlot).getItem();
+                if (((BlockItem) item).getBlock() instanceof QuickOpenable)
+                    ((QuickOpenable) ((BlockItem) item).getBlock()).quickShulker$QuickAccess(player, player.inventory.getInvStack(invSlot));
             });
         });
     }
