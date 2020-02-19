@@ -1,7 +1,7 @@
 package net.kyrptonaught.quickshulker.mixin;
 
-import net.kyrptonaught.quickshulker.QuickOpenable;
 import net.kyrptonaught.quickshulker.Util;
+import net.kyrptonaught.quickshulker.api.QuickOpenable;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.container.SimpleNamedContainerFactory;
 import net.minecraft.entity.player.PlayerEntity;

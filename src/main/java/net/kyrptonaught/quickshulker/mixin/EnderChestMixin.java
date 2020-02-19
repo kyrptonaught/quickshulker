@@ -1,6 +1,6 @@
 package net.kyrptonaught.quickshulker.mixin;
 
-import net.kyrptonaught.quickshulker.QuickOpenable;
+import net.kyrptonaught.quickshulker.api.QuickOpenable;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.container.GenericContainer;
 import net.minecraft.container.SimpleNamedContainerFactory;

@@ -1,4 +1,4 @@
-package net.kyrptonaught.quickshulker;
+package net.kyrptonaught.quickshulker.api;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.BasicInventory;
@@ -7,28 +7,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.DefaultedList;
 
-public class ShulkerInventory extends BasicInventory {
+public class ItemStackInventory extends BasicInventory {
 
-    private ItemStack shulkerStack;
+    private ItemStack itemStack;
+    private int SIZE;
 
-    public ShulkerInventory(ItemStack stack, DefaultedList<ItemStack> stacks) {
+    public ItemStackInventory(ItemStack stack, DefaultedList<ItemStack> stacks) {
         super(stacks.toArray(new ItemStack[stacks.size()]));
-        shulkerStack = stack;
+        itemStack = stack;
+        this.SIZE = stacks.size();
     }
-
 
     @Override
     public void markDirty() {
         super.markDirty();
-        CompoundTag compoundTag = shulkerStack.getSubTag("BlockEntityTag");
+        CompoundTag compoundTag = itemStack.getSubTag("BlockEntityTag");
         if (isInvEmpty()) {
-            shulkerStack.removeSubTag("BlockEntityTag");
+            itemStack.removeSubTag("BlockEntityTag");
             return;
         } else if (compoundTag == null) {
-            compoundTag = shulkerStack.getOrCreateSubTag("BlockEntityTag");
+            compoundTag = itemStack.getOrCreateSubTag("BlockEntityTag");
         }
 
-        DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(27, ItemStack.EMPTY);
+        DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(SIZE, ItemStack.EMPTY);
         for (int i = 0; i < getInvSize(); i++)
             itemStacks.set(i, getInvStack(i));
         Inventories.toTag(compoundTag, itemStacks);

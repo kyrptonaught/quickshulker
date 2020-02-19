@@ -2,6 +2,8 @@ package net.kyrptonaught.quickshulker;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.kyrptonaught.quickshulker.api.ItemStackInventory;
+import net.kyrptonaught.quickshulker.api.QuickOpenable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.container.ShulkerBoxContainer;
@@ -39,7 +41,7 @@ public class Util {
         if (compoundTag != null && compoundTag.contains("Items", 9)) {
             Inventories.fromTag(compoundTag, itemStacks);
         }
-        return new ShulkerBoxContainer(id, player.inventory, new ShulkerInventory(usedStack, itemStacks));
+        return new ShulkerBoxContainer(id, player.inventory, new ItemStackInventory(usedStack, itemStacks));
     }
 
     public static InputUtil.KeyCode keycode;

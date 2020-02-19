@@ -1,4 +1,4 @@
-package net.kyrptonaught.quickshulker;
+package net.kyrptonaught.quickshulker.api;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
