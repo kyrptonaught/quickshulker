@@ -22,12 +22,7 @@ public class OpenShulkerPacket {
     static void registerReceivePacket() {
         ServerSidePacketRegistry.INSTANCE.register(OPEN_SHULKER_PACKET, (packetContext, packetByteBuf) -> {
             int invSlot = packetByteBuf.readInt();
-            packetContext.getTaskQueue().execute(() -> {
-                PlayerEntity player = packetContext.getPlayer();
-                Block item = ((BlockItem) player.inventory.getInvStack(invSlot).getItem()).getBlock();
-                if(item instanceof ShulkerBoxBlock) item = Blocks.SHULKER_BOX;
-                QuickOpenableRegistry.consumers.get(item).accept(player, player.inventory.getInvStack(invSlot));
-            });
+            packetContext.getTaskQueue().execute(() -> Util.openItem(packetContext.getPlayer(), invSlot));
         });
     }
 

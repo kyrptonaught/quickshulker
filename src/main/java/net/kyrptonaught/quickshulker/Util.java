@@ -3,10 +3,10 @@ package net.kyrptonaught.quickshulker;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.api.QuickOpenableRegistry;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 public class Util {
+
     public static boolean CheckAndSend(PlayerInventory playerInv, ItemStack stack) {
         if (isOpenableItem(stack)) {
             SendOpenPacket(playerInv, stack);
@@ -22,17 +23,24 @@ public class Util {
         return false;
     }
 
+    public static void openItem(PlayerEntity player, int invSlot) {
+        Block item = ((BlockItem) player.inventory.getInvStack(invSlot).getItem()).getBlock();
+        for (Block block : QuickOpenableRegistry.consumers.keySet())
+            if (item.getClass().isInstance(block)) {
+                QuickOpenableRegistry.consumers.get(block).accept(player, player.inventory.getInvStack(invSlot));
+                break;
+            }
+    }
+
     private static Boolean isOpenableItem(ItemStack stack) {
         Item item = stack.getItem();
-        if (((BlockItem) item).getBlock() instanceof ShulkerBoxBlock)
-            return  QuickOpenableRegistry.consumers.containsKey(Blocks.SHULKER_BOX);
-        return  QuickOpenableRegistry.consumers.containsKey(((BlockItem) item).getBlock());
+        Block block = ((BlockItem) item).getBlock();
+        return QuickOpenableRegistry.consumers.keySet().stream().anyMatch(quickBlock -> block.getClass().isInstance(quickBlock));
     }
 
     private static void SendOpenPacket(PlayerInventory playerInv, ItemStack stack) {
         OpenShulkerPacket.sendOpenPacket(playerInv.getSlotWithStack(stack));
     }
-
 
     public static InputUtil.KeyCode keycode;
 
