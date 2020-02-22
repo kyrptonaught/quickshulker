@@ -25,17 +25,13 @@ public class Util {
 
     public static void openItem(PlayerEntity player, int invSlot) {
         Block item = ((BlockItem) player.inventory.getInvStack(invSlot).getItem()).getBlock();
-        for (Block block : QuickOpenableRegistry.consumers.keySet())
-            if (item.getClass().isInstance(block)) {
-                QuickOpenableRegistry.consumers.get(block).accept(player, player.inventory.getInvStack(invSlot));
-                break;
-            }
+        QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, player.inventory.getInvStack(invSlot));
     }
 
     private static Boolean isOpenableItem(ItemStack stack) {
         Item item = stack.getItem();
         Block block = ((BlockItem) item).getBlock();
-        return QuickOpenableRegistry.consumers.keySet().stream().anyMatch(quickBlock -> block.getClass().isInstance(quickBlock));
+        return QuickOpenableRegistry.consumers.containsKey(block.getClass());
     }
 
     private static void SendOpenPacket(PlayerInventory playerInv, ItemStack stack) {
