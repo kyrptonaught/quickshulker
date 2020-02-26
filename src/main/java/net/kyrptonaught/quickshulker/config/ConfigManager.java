@@ -33,8 +33,9 @@ public class ConfigManager {
         }
         try {
             String result = JANKSON.toJson(config).toJson(true, true, 0);
-            if (!configFile.exists())
+            if (!configFile.exists()) {
                 configFile.createNewFile();
+            }
             FileOutputStream out = new FileOutputStream(configFile, false);
 
             out.write(result.getBytes());

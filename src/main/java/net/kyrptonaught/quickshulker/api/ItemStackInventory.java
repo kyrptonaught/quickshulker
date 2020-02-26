@@ -13,7 +13,7 @@ public class ItemStackInventory extends BasicInventory {
     private int SIZE;
 
     public ItemStackInventory(ItemStack stack, int SIZE) {
-        super(getStacks(stack,SIZE).toArray(new ItemStack[SIZE]));
+        super(getStacks(stack, SIZE).toArray(new ItemStack[SIZE]));
         itemStack = stack;
         this.SIZE = SIZE;
     }
@@ -39,8 +39,9 @@ public class ItemStackInventory extends BasicInventory {
         }
 
         DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(SIZE, ItemStack.EMPTY);
-        for (int i = 0; i < getInvSize(); i++)
+        for (int i = 0; i < getInvSize(); i++) {
             itemStacks.set(i, getInvStack(i));
+        }
         Inventories.toTag(compoundTag, itemStacks);
     }
 

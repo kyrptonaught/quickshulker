@@ -1,7 +1,9 @@
 package net.kyrptonaught.quickshulker.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
-import net.kyrptonaught.quickshulker.Util;
+import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.minecraft.client.gui.screen.ingame.ContainerScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.container.Slot;
@@ -14,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ContainerScreen.class)
+@Environment(EnvType.CLIENT)
 public abstract class ScreenMixin {
     @Shadow
     protected Slot focusedSlot;
@@ -24,29 +27,35 @@ public abstract class ScreenMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void QS$keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (QuickShulkerMod.config.getConfig().keybingInInv)
-            if (Util.keycode.getCategory() == InputUtil.Type.KEYSYM && keyCode == Util.keycode.getKeyCode()) {
+        if (QuickShulkerMod.config.getConfig().keybingInInv) {
+            if (ClientUtil.keycode.getCategory() == InputUtil.Type.KEYSYM && keyCode == ClientUtil.keycode.getKeyCode()) {
                 if (this.focusedSlot != null) {
-                    Util.CheckAndSend(this.playerInventory, this.focusedSlot.getStack());
+                    ClientUtil.CheckAndSend(this.playerInventory, this.focusedSlot.getStack());
                     cir.cancel();
                 }
             }
+        }
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void QS$mousePressed(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (QuickShulkerMod.config.getConfig().rightClickInv)
+        if (QuickShulkerMod.config.getConfig().rightClickInv) {
             if (playerInventory.getCursorStack().isEmpty() && button == 1) {
-                if (this.focusedSlot != null)
-                    if (Util.CheckAndSend(this.playerInventory, this.focusedSlot.getStack()))
-                        cir.cancel();
-            }
-        if (QuickShulkerMod.config.getConfig().keybingInInv)
-            if (Util.keycode.getCategory() == InputUtil.Type.MOUSE && button == Util.keycode.getKeyCode()) {
                 if (this.focusedSlot != null) {
-                    if (Util.CheckAndSend(this.playerInventory, this.focusedSlot.getStack()))
+                    if (ClientUtil.CheckAndSend(this.playerInventory, this.focusedSlot.getStack())) {
                         cir.cancel();
+                    }
                 }
             }
+        }
+        if (QuickShulkerMod.config.getConfig().keybingInInv) {
+            if (ClientUtil.keycode.getCategory() == InputUtil.Type.MOUSE && button == ClientUtil.keycode.getKeyCode()) {
+                if (this.focusedSlot != null) {
+                    if (ClientUtil.CheckAndSend(this.playerInventory, this.focusedSlot.getStack())) {
+                        cir.cancel();
+                    }
+                }
+            }
+        }
     }
 }

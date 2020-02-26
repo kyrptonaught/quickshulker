@@ -7,7 +7,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
-import net.kyrptonaught.quickshulker.Util;
+import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
@@ -29,7 +29,7 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen).setTitle("Quick Shulker Config");
             builder.setSavingRunnable(() -> {
                 QuickShulkerMod.config.saveConfig();
-                Util.keycode = null;
+                ClientUtil.keycode = null;
             });
             ConfigEntryBuilder entryBuilder = ConfigEntryBuilder.create();
 

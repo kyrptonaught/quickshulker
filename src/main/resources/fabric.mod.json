@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "quickshulker",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "Quick Shulker",
   "description": "Quickly open Shulker boxes",
   "authors": [
@@ -25,7 +25,7 @@
       "net.kyrptonaught.quickshulker.QuickShulkerMod"
     ],
     "client": [
-      "net.kyrptonaught.quickshulker.QuickShulkerModClient"
+      "net.kyrptonaught.quickshulker.client.QuickShulkerModClient"
     ],
     "quickshulker": [
       "net.kyrptonaught.quickshulker.QuickShulkerMod"
