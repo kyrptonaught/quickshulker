@@ -16,6 +16,7 @@ public class Util {
 
     public static Boolean isOpenableItem(ItemStack stack) {
         Item item = stack.getItem();
+        if (!(item instanceof BlockItem)) return false;
         Block block = ((BlockItem) item).getBlock();
         return QuickOpenableRegistry.consumers.containsKey(block.getClass());
     }
