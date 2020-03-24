@@ -31,7 +31,7 @@ public class ClientUtil {
 
     public static boolean isKeybindPressed() {
         if (keycode == null) {
-            keycode = InputUtil.fromName(QuickShulkerMod.config.getConfig().keybinding);
+            keycode = InputUtil.fromName(QuickShulkerMod.getConfig().keybinding);
         }
         if (keycode.getCategory() == InputUtil.Type.MOUSE) {
             return GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), keycode.getKeyCode()) == 1;

@@ -1,0 +1,10 @@
+{
+  "key.categories.quickshulker": "快捷潜影貝",
+  "key.quickshulker.quickshulker": "快速打開手持潜影盒",
+  "key.quickshulker.config.category.activation": "啟動方法",
+  "key.quickshulker.config.keybinding": "按鍵綁定",
+  "key.quickshulker.config.keybind": "手持物品時按指定按鍵打開物品",
+  "key.quickshulker.config.rightClick": "手持物品時右擊打開物品",
+  "key.quickshulker.config.keybindInInv": "在物品欄中打開鼠摽懸停的物品",
+  "key.quickshulker.config.rightClickInInv": "在物品欄中右擊打開物品"
+}

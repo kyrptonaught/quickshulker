@@ -3,11 +3,12 @@ package net.kyrptonaught.quickshulker;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.quickshulker.api.ItemStackInventory;
 import net.kyrptonaught.quickshulker.api.QuickOpenableRegistry;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulker;
 import net.kyrptonaught.quickshulker.api.Util;
-import net.kyrptonaught.quickshulker.config.ConfigManager;
+import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.container.GenericContainer;
@@ -19,16 +20,17 @@ import net.minecraft.util.TypedActionResult;
 
 public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
     public static final String MOD_ID = "quickshulker";
-    public static ConfigManager config = new ConfigManager();
+    public static ConfigManager config = new ConfigManager.SingleConfigManager(MOD_ID);
 
     @Override
     public void onInitialize() {
-        config.loadConfig();
+        config.registerFile("quickshulkerconfig.json5", new ConfigOptions());
+        config.loadAll();
         OpenShulkerPacket.registerReceivePacket();
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getMainHandStack();
             if (!world.isClient) {
-                if (QuickShulkerMod.config.getConfig().rightClickToOpen) {
+                if (QuickShulkerMod.getConfig().rightClickToOpen) {
                     if (Util.isOpenableItem(stack)) {
                         Util.openItem(player, Util.getSlotWithStack(player.inventory, stack));
                         return TypedActionResult.success(stack);
@@ -38,6 +40,10 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             return TypedActionResult.pass(stack);
         });
         FabricLoader.getInstance().getEntrypoints(MOD_ID, RegisterQuickShulker.class).forEach(RegisterQuickShulker::registerProviders);
+    }
+
+    public static ConfigOptions getConfig() {
+        return (ConfigOptions) config.getConfig("quickshulkerconfig.json5");
     }
 
     @Override

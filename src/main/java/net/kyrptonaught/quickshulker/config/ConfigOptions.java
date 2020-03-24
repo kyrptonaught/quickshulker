@@ -1,8 +1,9 @@
 package net.kyrptonaught.quickshulker.config;
 
 import blue.endless.jankson.Comment;
+import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 
-public class ConfigOptions {
+public class ConfigOptions implements AbstractConfigFile {
     @Comment("Activation key")
     public String keybinding = "key.keyboard.p";
     @Comment("Right Clicking with shulker in hand opens it")

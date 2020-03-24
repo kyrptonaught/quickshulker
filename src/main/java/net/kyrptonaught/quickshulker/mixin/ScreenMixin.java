@@ -27,7 +27,7 @@ public abstract class ScreenMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void QS$keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (QuickShulkerMod.config.getConfig().keybingInInv) {
+        if (QuickShulkerMod.getConfig().keybingInInv) {
             if (ClientUtil.keycode.getCategory() == InputUtil.Type.KEYSYM && keyCode == ClientUtil.keycode.getKeyCode()) {
                 if (this.focusedSlot != null) {
                     ClientUtil.CheckAndSend(this.playerInventory, this.focusedSlot.getStack());
@@ -39,7 +39,7 @@ public abstract class ScreenMixin {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void QS$mousePressed(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (QuickShulkerMod.config.getConfig().rightClickInv) {
+        if (QuickShulkerMod.getConfig().rightClickInv) {
             if (playerInventory.getCursorStack().isEmpty() && button == 1) {
                 if (this.focusedSlot != null) {
                     if (ClientUtil.CheckAndSend(this.playerInventory, this.focusedSlot.getStack())) {
@@ -48,7 +48,7 @@ public abstract class ScreenMixin {
                 }
             }
         }
-        if (QuickShulkerMod.config.getConfig().keybingInInv) {
+        if (QuickShulkerMod.getConfig().keybingInInv) {
             if (ClientUtil.keycode.getCategory() == InputUtil.Type.MOUSE && button == ClientUtil.keycode.getKeyCode()) {
                 if (this.focusedSlot != null) {
                     if (ClientUtil.CheckAndSend(this.playerInventory, this.focusedSlot.getStack())) {

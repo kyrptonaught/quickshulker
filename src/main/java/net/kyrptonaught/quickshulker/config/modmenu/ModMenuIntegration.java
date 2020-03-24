@@ -25,10 +25,10 @@ public class ModMenuIntegration implements ModMenuApi {
     @Override
     public Function<Screen, ? extends Screen> getConfigScreenFactory() {
         return (screen) -> {
-            ConfigOptions options = QuickShulkerMod.config.getConfig();
+            ConfigOptions options = QuickShulkerMod.getConfig();
             ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen).setTitle("Quick Shulker Config");
             builder.setSavingRunnable(() -> {
-                QuickShulkerMod.config.saveConfig();
+                QuickShulkerMod.config.saveAll();
                 ClientUtil.keycode = null;
             });
             ConfigEntryBuilder entryBuilder = ConfigEntryBuilder.create();

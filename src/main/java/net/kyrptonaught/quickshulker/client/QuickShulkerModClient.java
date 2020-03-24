@@ -15,7 +15,7 @@ public class QuickShulkerModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         WorldTickCallback.EVENT.register(world -> {
-            if (MinecraftClient.getInstance().currentScreen == null && QuickShulkerMod.config.getConfig().keybind) {
+            if (MinecraftClient.getInstance().currentScreen == null && QuickShulkerMod.getConfig().keybind) {
                 PlayerEntity player = MinecraftClient.getInstance().player;
                 if (ClientUtil.isKeybindPressed()) {
                     ClientUtil.CheckAndSend(player.inventory, player.getMainHandStack());
