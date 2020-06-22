@@ -1,5 +1,6 @@
 package net.kyrptonaught.quickshulker.api;
 
+import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
@@ -7,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.collection.DefaultedList;
 
-public class ItemStackInventory extends SimpleInventory {
 
+public class ItemStackInventory extends SimpleInventory {
     private ItemStack itemStack;
     private int SIZE;
 
@@ -30,6 +31,7 @@ public class ItemStackInventory extends SimpleInventory {
     @Override
     public void markDirty() {
         super.markDirty();
+
         CompoundTag compoundTag = itemStack.getSubTag("BlockEntityTag");
         if (isEmpty()) {
             itemStack.removeSubTag("BlockEntityTag");
@@ -48,5 +50,6 @@ public class ItemStackInventory extends SimpleInventory {
     @Override
     public void onClose(PlayerEntity playerEntity_1) {
         markDirty();
+        itemStack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).remove("opened");
     }
 }

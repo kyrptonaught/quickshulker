@@ -25,6 +25,7 @@ dependencies {
 
 	modImplementation 'net.kyrptonaught:kyrptconfig:1.0.0-1.16-rc1'
 	include 'net.kyrptonaught:kyrptconfig:1.0.0-1.16-rc1'
+
 }
 
 bintray {

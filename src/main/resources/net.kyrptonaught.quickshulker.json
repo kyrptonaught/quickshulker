@@ -3,6 +3,9 @@
   "package": "net.kyrptonaught.quickshulker.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ContainerMixin"
+  ],
+  "client": [
     "ScreenMixin"
   ],
   "injectors": {

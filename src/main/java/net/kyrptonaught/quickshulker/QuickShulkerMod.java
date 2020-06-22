@@ -18,6 +18,7 @@ import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.TypedActionResult;
 
+
 public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
     public static final String MOD_ID = "quickshulker";
     public static ConfigManager config = new ConfigManager.SingleConfigManager(MOD_ID);
@@ -32,7 +33,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             if (!world.isClient) {
                 if (QuickShulkerMod.getConfig().rightClickToOpen) {
                     if (Util.isOpenableItem(stack)) {
-                        Util.openItem(player, Util.getSlotWithStack(player.inventory, stack));
+                        Util.openItem(player, stack);
                         return TypedActionResult.success(stack);
                     }
                 }
