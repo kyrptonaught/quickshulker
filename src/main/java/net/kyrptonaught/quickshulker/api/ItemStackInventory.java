@@ -2,15 +2,16 @@ package net.kyrptonaught.quickshulker.api;
 
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.BasicInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.util.collection.DefaultedList;
 
-public class ItemStackInventory extends BasicInventory {
-    private final ItemStack itemStack;
-    private final int SIZE;
+
+public class ItemStackInventory extends SimpleInventory {
+    private ItemStack itemStack;
+    private int SIZE;
 
     public ItemStackInventory(ItemStack stack, int SIZE) {
         super(getStacks(stack, SIZE).toArray(new ItemStack[SIZE]));
@@ -32,7 +33,7 @@ public class ItemStackInventory extends BasicInventory {
         super.markDirty();
 
         CompoundTag compoundTag = itemStack.getSubTag("BlockEntityTag");
-        if (isInvEmpty()) {
+        if (isEmpty()) {
             itemStack.removeSubTag("BlockEntityTag");
             return;
         } else if (compoundTag == null) {
@@ -40,14 +41,14 @@ public class ItemStackInventory extends BasicInventory {
         }
 
         DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(SIZE, ItemStack.EMPTY);
-        for (int i = 0; i < getInvSize(); i++) {
-            itemStacks.set(i, getInvStack(i));
+        for (int i = 0; i < size(); i++) {
+            itemStacks.set(i, getStack(i));
         }
         Inventories.toTag(compoundTag, itemStacks);
     }
 
     @Override
-    public void onInvClose(PlayerEntity playerEntity_1) {
+    public void onClose(PlayerEntity playerEntity_1) {
         markDirty();
         itemStack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).remove("opened");
     }
