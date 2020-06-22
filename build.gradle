@@ -25,8 +25,8 @@ dependencies {
 
 	modImplementation "io.github.prospector:modmenu:1.10.2+build.32"
 
-	modImplementation 'net.kyrptonaught:kyrptconfig:+'
-	include 'net.kyrptonaught:kyrptconfig:+'
+	modImplementation 'net.kyrptonaught:kyrptconfig:1.0.0'
+	include 'net.kyrptonaught:kyrptconfig:1.0.0'
 }
 
 bintray {

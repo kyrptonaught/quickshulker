@@ -16,7 +16,9 @@ public class OpenShulkerPacket {
     static void registerReceivePacket() {
         ServerSidePacketRegistry.INSTANCE.register(OPEN_SHULKER_PACKET, (packetContext, packetByteBuf) -> {
             int invSlot = packetByteBuf.readInt();
-            packetContext.getTaskQueue().execute(() -> Util.openItem(packetContext.getPlayer(), invSlot));
+            packetContext.getTaskQueue().execute(() -> {
+                Util.openItem(packetContext.getPlayer(), invSlot);
+            });
         });
     }
 

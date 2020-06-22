@@ -28,7 +28,6 @@ public class ClientUtil {
 
     public static InputUtil.KeyCode keycode;
 
-
     public static boolean isKeybindPressed() {
         if (keycode == null) {
             keycode = InputUtil.fromName(QuickShulkerMod.getConfig().keybinding);

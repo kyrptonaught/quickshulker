@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.TypedActionResult;
 
+
 public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
     public static final String MOD_ID = "quickshulker";
     public static ConfigManager config = new ConfigManager.SingleConfigManager(MOD_ID);
@@ -32,7 +33,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             if (!world.isClient) {
                 if (QuickShulkerMod.getConfig().rightClickToOpen) {
                     if (Util.isOpenableItem(stack)) {
-                        Util.openItem(player, Util.getSlotWithStack(player.inventory, stack));
+                        Util.openItem(player, stack);
                         return TypedActionResult.success(stack);
                     }
                 }
@@ -48,8 +49,10 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
 
     @Override
     public void registerProviders() {
-        QuickOpenableRegistry.register(ShulkerBoxBlock.class, ((player, stack) -> player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
-                new ShulkerBoxContainer(i, player.inventory, new ItemStackInventory(stack, 27)), new TranslatableText("container.shulkerBox")))));
+        QuickOpenableRegistry.register(ShulkerBoxBlock.class, ((player, stack) -> {
+            player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
+                    new ShulkerBoxContainer(i, player.inventory, new ItemStackInventory(stack, 27)), new TranslatableText("container.shulkerBox")));
+        }));
 
         QuickOpenableRegistry.register(EnderChestBlock.class, ((player, stack) -> player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
                 GenericContainer.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))));

@@ -10,8 +10,7 @@ public class QuickOpenableRegistry {
     public static HashMap<Class, BiConsumer<PlayerEntity, ItemStack>> consumers = new HashMap<>();
 
     public static void register(Class block, BiConsumer<PlayerEntity, ItemStack> consumer) {
-        consumers.put(block
-                , consumer);
+        consumers.put(block, consumer);
     }
 
     public static void register(BiConsumer<PlayerEntity, ItemStack> consumer, Class... blocks) {

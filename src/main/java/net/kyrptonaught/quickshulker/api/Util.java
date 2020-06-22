@@ -1,5 +1,7 @@
 package net.kyrptonaught.quickshulker.api;
 
+import net.kyrptonaught.quickshulker.ItemInventoryContainer;
+import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -8,10 +10,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class Util {
+    public static void openItem(PlayerEntity player, ItemStack stack) {
+        Block item = ((BlockItem) stack.getItem()).getBlock();
+        stack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).putBoolean("opened", true);
+        QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, stack);
+        ((ItemInventoryContainer) player.container).setOpenedItem(stack);
+    }
 
     public static void openItem(PlayerEntity player, int invSlot) {
-        Block item = ((BlockItem) player.inventory.getInvStack(invSlot).getItem()).getBlock();
-        QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, player.inventory.getInvStack(invSlot));
+        openItem(player, player.inventory.getInvStack(invSlot));
     }
 
     public static Boolean isOpenableItem(ItemStack stack) {
@@ -32,7 +39,7 @@ public class Util {
         return -1;
     }
 
-    private static boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {
+    public static boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {
         return stack1.getItem() == stack2.getItem() && ItemStack.areTagsEqual(stack1, stack2);
     }
 }
