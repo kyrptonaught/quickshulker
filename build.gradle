@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.7-SNAPSHOT'
+	id 'fabric-loom' version '0.4-SNAPSHOT'
 	id 'maven-publish'
 	id "com.jfrog.bintray" version "1.8.4"
 }
@@ -23,10 +23,8 @@ dependencies {
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "io.github.prospector:modmenu:1.10.2+build.32"
-
-	modImplementation 'net.kyrptonaught:kyrptconfig:+'
-	include 'net.kyrptonaught:kyrptconfig:+'
+	modImplementation 'net.kyrptonaught:kyrptconfig:1.0.0-1.16-rc1'
+	include 'net.kyrptonaught:kyrptconfig:1.0.0-1.16-rc1'
 }
 
 bintray {

@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 public class Util {
 
     public static void openItem(PlayerEntity player, int invSlot) {
-        Block item = ((BlockItem) player.inventory.getInvStack(invSlot).getItem()).getBlock();
-        QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, player.inventory.getInvStack(invSlot));
+        Block item = ((BlockItem) player.inventory.getStack(invSlot).getItem()).getBlock();
+        QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, player.inventory.getStack(invSlot));
     }
 
     public static Boolean isOpenableItem(ItemStack stack) {

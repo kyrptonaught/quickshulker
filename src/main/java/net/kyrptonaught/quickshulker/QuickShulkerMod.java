@@ -11,10 +11,10 @@ import net.kyrptonaught.quickshulker.api.Util;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.container.GenericContainer;
-import net.minecraft.container.ShulkerBoxContainer;
-import net.minecraft.container.SimpleNamedContainerFactory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.ShulkerBoxScreenHandler;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.TypedActionResult;
 
@@ -48,10 +48,10 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
 
     @Override
     public void registerProviders() {
-        QuickOpenableRegistry.register(ShulkerBoxBlock.class, ((player, stack) -> player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
-                new ShulkerBoxContainer(i, player.inventory, new ItemStackInventory(stack, 27)), new TranslatableText("container.shulkerBox")))));
+        QuickOpenableRegistry.register(ShulkerBoxBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                new ShulkerBoxScreenHandler(i, player.inventory, new ItemStackInventory(stack, 27)), new TranslatableText("container.shulkerBox")))));
 
-        QuickOpenableRegistry.register(EnderChestBlock.class, ((player, stack) -> player.openContainer(new SimpleNamedContainerFactory((i, playerInventory, playerEntity) ->
-                GenericContainer.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))));
+        QuickOpenableRegistry.register(EnderChestBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))));
     }
 }
