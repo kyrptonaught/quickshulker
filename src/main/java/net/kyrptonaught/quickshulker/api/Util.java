@@ -14,11 +14,11 @@ public class Util {
         Block item = ((BlockItem) stack.getItem()).getBlock();
         stack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).putBoolean("opened", true);
         QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, stack);
-        ((ItemInventoryContainer) player.container).setOpenedItem(stack);
+        ((ItemInventoryContainer) player.currentScreenHandler).setOpenedItem(stack);
     }
 
     public static void openItem(PlayerEntity player, int invSlot) {
-        openItem(player, player.inventory.getInvStack(invSlot));
+        openItem(player, player.inventory.getStack(invSlot));
     }
 
     public static Boolean isOpenableItem(ItemStack stack) {
