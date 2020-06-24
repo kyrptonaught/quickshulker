@@ -21,12 +21,11 @@ import net.minecraft.util.TypedActionResult;
 
 public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
     public static final String MOD_ID = "quickshulker";
-    public static ConfigManager config = new ConfigManager.SingleConfigManager(MOD_ID);
+    public static ConfigManager.SingleConfigManager config = new ConfigManager.SingleConfigManager(MOD_ID,new ConfigOptions());
 
     @Override
     public void onInitialize() {
-        config.registerFile("quickshulkerconfig.json5", new ConfigOptions());
-        config.loadAll();
+        config.load();
         OpenShulkerPacket.registerReceivePacket();
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getMainHandStack();
@@ -44,7 +43,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
     }
 
     public static ConfigOptions getConfig() {
-        return (ConfigOptions) config.getConfig("quickshulkerconfig.json5");
+        return (ConfigOptions) config.getConfig();
     }
 
     @Override
