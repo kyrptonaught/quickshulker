@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
@@ -31,7 +32,9 @@ public abstract class ContainerMixin implements ItemInventoryContainer {
     public List<Slot> slots;
 
 
-    @Shadow @Final public int syncId;
+    @Shadow
+    @Final
+    public int syncId;
 
     @Inject(method = "onSlotClick", at = @At("HEAD"), cancellable = true)
     public void QS$onClick(int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> cir) {
@@ -58,7 +61,7 @@ public abstract class ContainerMixin implements ItemInventoryContainer {
 
     @Unique
     @Override
-    public void setOpenedItem(ItemStack openedItem){
+    public void setOpenedItem(ItemStack openedItem) {
         this.openededStack = openedItem;
     }
 }
