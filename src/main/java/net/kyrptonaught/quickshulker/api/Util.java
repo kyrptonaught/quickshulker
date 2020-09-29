@@ -26,10 +26,10 @@ public class Util {
     }
 
     public static Boolean isOpenableItem(ItemStack stack) {
-        if (stack.getCount() != 1) return false;
         Item item = stack.getItem();
         if (!(item instanceof BlockItem)) return false;
         Block block = ((BlockItem) item).getBlock();
+        if (!(block instanceof EnderChestBlock) && stack.getCount() != 1) return false;
         return QuickOpenableRegistry.consumers.containsKey(block.getClass());
     }
 
