@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 public class Util {
     public static void openItem(PlayerEntity player, ItemStack stack) {
         Block item = ((BlockItem) stack.getItem()).getBlock();
-        if (item instanceof EnderChestBlock) stack.removeSubTag(QuickShulkerMod.MOD_ID);
+        if (isEnderChest(stack)) stack.removeSubTag(QuickShulkerMod.MOD_ID);
         else
             stack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).putBoolean("opened", true);
 
@@ -31,6 +31,12 @@ public class Util {
         Block block = ((BlockItem) item).getBlock();
         if (!(block instanceof EnderChestBlock) && stack.getCount() != 1) return false;
         return QuickOpenableRegistry.consumers.containsKey(block.getClass());
+    }
+
+    public static boolean isEnderChest(ItemStack stack) {
+        Item item = stack.getItem();
+        if (!(item instanceof BlockItem)) return false;
+        return ((BlockItem) item).getBlock() instanceof EnderChestBlock;
     }
 
     //Copied from net.minecraft.entity.player.PlayerInventory.getSlotWithStack

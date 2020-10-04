@@ -2,8 +2,13 @@ package net.kyrptonaught.quickshulker.mixin;
 
 import net.kyrptonaught.quickshulker.ItemInventoryContainer;
 import net.kyrptonaught.quickshulker.api.Util;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.EnderChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -36,11 +41,12 @@ public abstract class ContainerMixin implements ItemInventoryContainer {
     @Final
     public int syncId;
 
+
     @Inject(method = "onSlotClick", at = @At("HEAD"), cancellable = true)
     public void QS$onClick(int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> cir) {
         if (slotId > 0 && slotId < slots.size()) {
             Slot slot = this.slots.get(slotId);
-            if (slot != null)
+            if (slot != null && slot.inventory instanceof PlayerInventory)
                 if (hasItem()) {
                     if (Util.areItemsEqual(slot.getStack(), getOpenedItem())) {
                         cir.setReturnValue(ItemStack.EMPTY);
@@ -62,6 +68,7 @@ public abstract class ContainerMixin implements ItemInventoryContainer {
     @Unique
     @Override
     public void setOpenedItem(ItemStack openedItem) {
-        this.openededStack = openedItem;
+        if (!Util.isEnderChest(openedItem))
+            this.openededStack = openedItem;
     }
 }
