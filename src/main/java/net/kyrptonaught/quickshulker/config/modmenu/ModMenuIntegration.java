@@ -29,7 +29,7 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigOptions options = QuickShulkerMod.getConfig();
             ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen).setTitle(new TranslatableText("Quick Shulker Config"));
             builder.setSavingRunnable(() -> {
-                QuickShulkerMod.config.saveAll();
+                QuickShulkerMod.config.save();
                 ClientUtil.keycode = null;
             });
             ConfigEntryBuilder entryBuilder = ConfigEntryBuilder.create();

@@ -3,6 +3,7 @@ package net.kyrptonaught.quickshulker.api;
 import net.kyrptonaught.quickshulker.ItemInventoryContainer;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.minecraft.block.Block;
+import net.minecraft.block.EnderChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
@@ -12,20 +13,23 @@ import net.minecraft.item.ItemStack;
 public class Util {
     public static void openItem(PlayerEntity player, ItemStack stack) {
         Block item = ((BlockItem) stack.getItem()).getBlock();
-        stack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).putBoolean("opened", true);
+        if (item instanceof EnderChestBlock) stack.removeSubTag(QuickShulkerMod.MOD_ID);
+        else
+            stack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).putBoolean("opened", true);
+
         QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, stack);
-        ((ItemInventoryContainer) player.container).setOpenedItem(stack);
+        ((ItemInventoryContainer) player.currentScreenHandler).setOpenedItem(stack);
     }
 
     public static void openItem(PlayerEntity player, int invSlot) {
-        openItem(player, player.inventory.getInvStack(invSlot));
+        openItem(player, player.inventory.getStack(invSlot));
     }
 
     public static Boolean isOpenableItem(ItemStack stack) {
-        if (stack.getCount() != 1) return false;
         Item item = stack.getItem();
         if (!(item instanceof BlockItem)) return false;
         Block block = ((BlockItem) item).getBlock();
+        if (!(block instanceof EnderChestBlock) && stack.getCount() != 1) return false;
         return QuickOpenableRegistry.consumers.containsKey(block.getClass());
     }
 

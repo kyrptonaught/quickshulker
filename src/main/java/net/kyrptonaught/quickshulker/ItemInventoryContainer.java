@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 public interface ItemInventoryContainer {
     ItemStack getOpenedItem();
 
-
     default boolean hasItem() {
         return getOpenedItem() != null;
     }

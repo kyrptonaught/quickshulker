@@ -31,7 +31,6 @@ public class ItemStackInventory extends SimpleInventory {
     @Override
     public void markDirty() {
         super.markDirty();
-
         CompoundTag compoundTag = itemStack.getSubTag("BlockEntityTag");
         if (isEmpty()) {
             itemStack.removeSubTag("BlockEntityTag");
@@ -50,6 +49,6 @@ public class ItemStackInventory extends SimpleInventory {
     @Override
     public void onClose(PlayerEntity playerEntity_1) {
         markDirty();
-        itemStack.getOrCreateSubTag(QuickShulkerMod.MOD_ID).remove("opened");
+        itemStack.removeSubTag(QuickShulkerMod.MOD_ID);
     }
 }
