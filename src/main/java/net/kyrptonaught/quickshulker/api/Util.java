@@ -56,7 +56,7 @@ public class Util {
     }
 
     public static boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {
-        return stack1.getItem() == stack2.getItem() && ItemStack.areTagsEqual(stack1, stack2);
+        return stack1.getItem() == stack2.getItem() && ItemStack.areTagsEqual(stack1, stack2) && stack1.getCount() == stack2.getCount();
     }
 
     public static ScreenHandlerListener forceCloseScreenIfNotPresent(PlayerEntity player, ItemStack stack) {
@@ -77,7 +77,6 @@ public class Util {
             }
 
             public void isValid() {
-                System.out.println(player.inventory.contains(stack));
                 if (!player.inventory.contains(stack)) {
                     ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
                     player.currentScreenHandler = player.playerScreenHandler;

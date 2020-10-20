@@ -48,6 +48,11 @@ public class ItemStackInventory extends SimpleInventory {
 
     @Override
     public void onClose(PlayerEntity playerEntity_1) {
+        if (itemStack.getCount() > 1) {
+            int count = itemStack.getCount();
+            itemStack.setCount(1);
+            playerEntity_1.giveItemStack(new ItemStack(itemStack.getItem(), count - 1));
+        }
         markDirty();
         itemStack.removeSubTag(QuickShulkerMod.MOD_ID);
     }
