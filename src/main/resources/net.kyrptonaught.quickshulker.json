@@ -3,7 +3,8 @@
   "package": "net.kyrptonaught.quickshulker.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ContainerMixin"
+    "ContainerMixin",
+    "ItemStackInventoryMixin"
   ],
   "client": [
     "ScreenMixin"
