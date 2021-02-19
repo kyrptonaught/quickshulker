@@ -15,16 +15,18 @@ public class OpenShulkerPacket {
 
     static void registerReceivePacket() {
         ServerSidePacketRegistry.INSTANCE.register(OPEN_SHULKER_PACKET, (packetContext, packetByteBuf) -> {
+            int type = packetByteBuf.readInt();
             int invSlot = packetByteBuf.readInt();
             packetContext.getTaskQueue().execute(() -> {
-                Util.openItem(packetContext.getPlayer(), invSlot);
+                Util.openItem(packetContext.getPlayer(), invSlot, type);
             });
         });
     }
 
     @Environment(EnvType.CLIENT)
-    public static void sendOpenPacket(int invSlot) {
+    public static void sendOpenPacket(int invSlot, int type) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeInt(type);
         buf.writeInt(invSlot);
         MinecraftClient.getInstance().getNetworkHandler().getConnection().send(new CustomPayloadC2SPacket(OPEN_SHULKER_PACKET, new PacketByteBuf(buf)));
     }

@@ -3,11 +3,11 @@
   "package": "net.kyrptonaught.quickshulker.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ContainerMixin",
-    "ItemStackInventoryMixin"
+    "ContainerMixin"
   ],
   "client": [
-    "ScreenMixin"
+    "ScreenMixin",
+    "CreativeSlotMixin"
   ],
   "injectors": {
     "defaultRequire": 1
