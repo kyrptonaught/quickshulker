@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -90,7 +91,7 @@ public abstract class ScreenMixin {
 
     @Unique
     private boolean isValid(ItemStack stack, int id, int type) {
-        if (this.focusedSlot.inventory instanceof PlayerInventory)
+        if (this.focusedSlot.inventory instanceof PlayerInventory || (QuickShulkerMod.getConfig().rightClickInChest && this.focusedSlot.inventory instanceof SimpleInventory))
             if (ClientUtil.CheckAndSend(stack, id, type)) {
                 QuickShulkerMod.lastMouseX = MinecraftClient.getInstance().mouse.getX();
                 QuickShulkerMod.lastMouseY = MinecraftClient.getInstance().mouse.getY();

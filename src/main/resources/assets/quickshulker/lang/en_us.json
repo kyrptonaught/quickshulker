@@ -6,5 +6,6 @@
   "key.quickshulker.config.keybind": "Keybinding while holding item",
   "key.quickshulker.config.rightClick": "Right Click while holding item",
   "key.quickshulker.config.keybindInInv": "Keybind while hovering in Inventory",
-  "key.quickshulker.config.rightClickInInv": "Right click while hovering in Inventory"
+  "key.quickshulker.config.rightClickInInv": "Right click while hovering in Inventory",
+  "key.quickshulker.config.rightClickInChest": "Right click while hovering in Chest"
 }

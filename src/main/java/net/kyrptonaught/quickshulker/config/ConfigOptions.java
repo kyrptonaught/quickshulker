@@ -14,4 +14,6 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean keybingInInv = true;
     @Comment("Right Clicking a shulker in your inv opens it")
     public boolean rightClickInv = true;
+    @Comment("Right Clicking a shulker in a chest opens it (requires rightClickInv)")
+    public boolean rightClickInChest = false;
 }
