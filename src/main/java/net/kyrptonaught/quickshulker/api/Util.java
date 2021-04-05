@@ -75,7 +75,7 @@ public class Util {
             }
 
             public void isValid() {
-                if (!player.inventory.contains(stack)) {
+                if (!player.inventory.contains(stack) && !QuickShulkerMod.getConfig().rightClickInChest) {
                     ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
                     player.currentScreenHandler = player.playerScreenHandler;
                 }
