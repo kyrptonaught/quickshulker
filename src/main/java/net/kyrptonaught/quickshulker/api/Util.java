@@ -60,11 +60,6 @@ public class Util {
     public static ScreenHandlerListener forceCloseScreenIfNotPresent(PlayerEntity player, ItemStack stack) {
         return new ScreenHandlerListener() {
             @Override
-            public void onHandlerRegistered(ScreenHandler handler, DefaultedList<ItemStack> stacks) {
-                isValid();
-            }
-
-            @Override
             public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
                 isValid();
             }
@@ -75,7 +70,7 @@ public class Util {
             }
 
             public void isValid() {
-                if (!player.inventory.contains(stack)) {
+                if (!player.getInventory().contains(stack)) {
                     ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
                     player.currentScreenHandler = player.playerScreenHandler;
                 }
