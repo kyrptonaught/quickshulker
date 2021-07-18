@@ -61,7 +61,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker, Ad
                 GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))));
 
         QuickOpenableRegistry.register(CraftingTableBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                new CraftingScreenHandler(i, playerInventory, ScreenHandlerContext.EMPTY), new TranslatableText("container.crafting")))));
+                new CraftingScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), new TranslatableText("container.crafting")))));
     }
 
     @Override
