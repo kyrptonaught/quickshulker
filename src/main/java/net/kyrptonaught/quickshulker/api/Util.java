@@ -15,25 +15,19 @@ import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class Util {
-    public static void openItem(PlayerEntity player, ItemStack stack) {
+
+    public static void openItem(PlayerEntity player, int invSlot) {
+        openItem(player, invSlot, player.currentScreenHandler.slots.get(invSlot).getIndex());
+    }
+
+    public static void openItem(PlayerEntity player, int invSlot, int playerInvIndex) {
+        ItemStack stack = player.getInventory().getStack(playerInvIndex);
         Block item = Block.getBlockFromItem(stack.getItem());
         stack.removeSubNbt(QuickShulkerMod.MOD_ID);
         if (QuickOpenableRegistry.consumers.containsKey(item.getClass())) {
             QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, stack);
-            ((ItemInventoryContainer) player.currentScreenHandler).setOpenedItem(stack);
-            player.currentScreenHandler.addListener(forceCloseScreenIfNotPresent(player, stack));
-        }
-    }
-
-    public static void openItem(PlayerEntity player, int invSlot, int type) {
-        if (type == 0) {
-            if (invSlot == -69)//nice
-                openItem(player, player.getMainHandStack());
-            else if (invSlot >= 0 && invSlot < player.currentScreenHandler.slots.size())
-                openItem(player, player.currentScreenHandler.getSlot(invSlot).getStack());
-        } else if (type == 1) {
-            if (invSlot >= 0 && invSlot < player.playerScreenHandler.slots.size())
-                openItem(player, player.playerScreenHandler.getSlot(invSlot).getStack());
+            ((ItemInventoryContainer) player.currentScreenHandler).setUsedSlot(playerInvIndex);
+            player.currentScreenHandler.addListener(forceCloseScreenIfNotPresent(player, playerInvIndex, stack));
         }
     }
 
@@ -63,7 +57,7 @@ public class Util {
         return stack1.getItem() == stack2.getItem() && ItemStack.areNbtEqual(stack1, stack2) && stack1.getCount() == stack2.getCount();
     }
 
-    public static ScreenHandlerListener forceCloseScreenIfNotPresent(PlayerEntity player, ItemStack stack) {
+    public static ScreenHandlerListener forceCloseScreenIfNotPresent(PlayerEntity player, int slotID, ItemStack stack) {
         return new ScreenHandlerListener() {
             @Override
             public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
@@ -76,8 +70,9 @@ public class Util {
             }
 
             public void isValid() {
-                if (!player.getInventory().contains(stack)) {
+                if (!areItemsEqual(stack, player.getInventory().getStack(slotID))) {
                     ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
+                    player.currentScreenHandler.close(player);
                     player.currentScreenHandler = player.playerScreenHandler;
                 }
             }

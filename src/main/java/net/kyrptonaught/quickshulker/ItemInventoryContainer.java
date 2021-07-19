@@ -1,15 +1,12 @@
 package net.kyrptonaught.quickshulker;
 
-import net.minecraft.item.ItemStack;
-
 public interface ItemInventoryContainer {
-    ItemStack getOpenedItem();
+    int getUsedSlotInPlayerInv();
 
     default boolean hasItem() {
-        return getOpenedItem() != null;
+        return getUsedSlotInPlayerInv() >= 0;
     }
 
-    void setOpenedItem(ItemStack openedItem);
-
+    void setUsedSlot(int playerInvSlotID);
 
 }

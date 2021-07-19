@@ -38,7 +38,8 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker, Ad
             if (!world.isClient) {
                 if (QuickShulkerMod.getConfig().rightClickToOpen) {
                     if (Util.isOpenableItem(stack)) {
-                        Util.openItem(player, stack);
+                        //todo work with offhand
+                        Util.openItem(player, 0, player.getInventory().selectedSlot);
                         return TypedActionResult.success(stack);
                     }
                 }

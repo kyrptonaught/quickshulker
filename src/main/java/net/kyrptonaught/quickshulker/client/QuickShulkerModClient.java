@@ -18,7 +18,8 @@ public class QuickShulkerModClient implements ClientModInitializer {
             if (MinecraftClient.getInstance().currentScreen == null && QuickShulkerMod.getConfig().keybind) {
                 PlayerEntity player = MinecraftClient.getInstance().player;
                 if (ClientUtil.isKeybindPressed()) {
-                    ClientUtil.CheckAndSend(player.getMainHandStack(), -69, 0);//nice
+                    //todo work with offhand
+                    ClientUtil.CheckAndSend(player.getMainHandStack(), 36 + player.getInventory().selectedSlot);
                 }
             }
         });

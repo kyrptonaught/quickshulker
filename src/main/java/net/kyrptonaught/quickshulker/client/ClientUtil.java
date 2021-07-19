@@ -13,16 +13,16 @@ import org.lwjgl.glfw.GLFW;
 @Environment(EnvType.CLIENT)
 public class ClientUtil {
 
-    public static boolean CheckAndSend(ItemStack stack, int slot, int type) {
+    public static boolean CheckAndSend(ItemStack stack, int slot) {
         if (Util.isOpenableItem(stack)) {
-            SendOpenPacket(slot, type);
+            SendOpenPacket(slot);
             return true;
         }
         return false;
     }
 
-    private static void SendOpenPacket(int slot, int type) {
-        OpenShulkerPacket.sendOpenPacket(slot, type);
+    private static void SendOpenPacket(int slot) {
+        OpenShulkerPacket.sendOpenPacket(slot);
     }
 
     public static InputUtil.Key keycode;

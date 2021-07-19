@@ -14,18 +14,14 @@ public class OpenShulkerPacket {
 
     static void registerReceivePacket() {
         ServerPlayNetworking.registerGlobalReceiver(OPEN_SHULKER_PACKET, (server, player, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
-            int type = packetByteBuf.readInt();
             int invSlot = packetByteBuf.readInt();
-            server.execute(() -> {
-                Util.openItem(player, invSlot, type);
-            });
+            server.execute(() -> Util.openItem(player, invSlot));
         });
     }
 
     @Environment(EnvType.CLIENT)
-    public static void sendOpenPacket(int invSlot, int type) {
+    public static void sendOpenPacket(int invSlot) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(type);
         buf.writeInt(invSlot);
         ClientPlayNetworking.send(OPEN_SHULKER_PACKET, new PacketByteBuf(buf));
     }
