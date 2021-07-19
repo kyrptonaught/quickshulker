@@ -22,8 +22,10 @@ public abstract class CraftingScreenHandlerMixin extends ScreenHandler {
 
     @Inject(method = "canUse", at = @At("HEAD"), cancellable = true)
     public void overrideCanUse(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack stack = player.getInventory().getStack(((ItemInventoryContainer) this).getUsedSlotInPlayerInv());
-        if (((ItemInventoryContainer) this).hasItem() && Util.isCraftingTable(stack))
-            cir.setReturnValue(true);
+        if (((ItemInventoryContainer) this).hasItem()) {
+            ItemStack stack = player.getInventory().getStack(((ItemInventoryContainer) this).getUsedSlotInPlayerInv());
+            if (Util.isCraftingTable(stack))
+                cir.setReturnValue(true);
+        }
     }
 }
