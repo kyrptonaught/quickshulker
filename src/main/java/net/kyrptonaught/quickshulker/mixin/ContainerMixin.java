@@ -2,6 +2,7 @@ package net.kyrptonaught.quickshulker.mixin;
 
 import net.kyrptonaught.quickshulker.ItemInventoryContainer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -35,7 +36,7 @@ public abstract class ContainerMixin implements ItemInventoryContainer {
     public void QS$onClick(int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
         if (slotId > 0 && slotId < slots.size()) {
             if (hasItem())
-                if (slots.get(slotId).getIndex() == playerInvSlot)
+                if (slots.get(slotId).inventory instanceof PlayerInventory && slots.get(slotId).getIndex() == playerInvSlot)
                     ci.cancel();
         }
     }

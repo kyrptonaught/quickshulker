@@ -24,8 +24,8 @@ public class Util {
         ItemStack stack = player.getInventory().getStack(playerInvIndex);
         Block item = Block.getBlockFromItem(stack.getItem());
         stack.removeSubNbt(QuickShulkerMod.MOD_ID);
-        if (QuickOpenableRegistry.consumers.containsKey(item.getClass())) {
-            QuickOpenableRegistry.consumers.get(item.getClass()).accept(player, stack);
+        if (QuickOpenableRegistry.quickies.containsKey(item.getClass())) {
+            QuickOpenableRegistry.quickies.get(item.getClass()).consumer().accept(player, stack);
             ((ItemInventoryContainer) player.currentScreenHandler).setUsedSlot(playerInvIndex);
             player.currentScreenHandler.addListener(forceCloseScreenIfNotPresent(player, playerInvIndex, stack));
         }
@@ -35,12 +35,23 @@ public class Util {
         Item item = stack.getItem();
         if (!(item instanceof BlockItem)) return false;
         Block block = ((BlockItem) item).getBlock();
-        if ((!(block instanceof EnderChestBlock) && !(block instanceof CraftingTableBlock)) && stack.getCount() != 1)
+        if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
             return false;
-        return QuickOpenableRegistry.consumers.containsKey(block.getClass());
+        QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
+        if (data.requiresSingularStack() && stack.getCount() > 1)
+            return false;
+        return true;
+    }
+    public static Boolean isBundleableItem(ItemStack stack) {
+        Item item = stack.getItem();
+        if (!(item instanceof BlockItem)) return false;
+        Block block = ((BlockItem) item).getBlock();
+        if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
+            return false;
+        QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
+        return data.supportsBundleing();
     }
 
-    @Deprecated
     public static boolean isEnderChest(ItemStack stack) {
         Item item = stack.getItem();
         if (!(item instanceof BlockItem)) return false;
