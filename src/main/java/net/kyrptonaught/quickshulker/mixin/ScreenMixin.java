@@ -72,7 +72,7 @@ public abstract class ScreenMixin {
     private boolean handleTrigger() {
         if (this.focusedSlot != null) {
             if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) {
-                if (((CreativeInventoryScreen) (Object) this).getSelectedTab() == ItemGroup.INVENTORY.getIndex()) {
+                if (((CreativeInventoryScreen) (Object) this).getSelectedTab() == ItemGroup.INVENTORY.getIndex() && this.focusedSlot instanceof CreativeInventoryScreen.CreativeSlot) {
                     return isValid(this.focusedSlot.getStack(), ((CreativeSlotMixin) this.focusedSlot).getSlot().id);
                 } else {
                     return isValid(this.focusedSlot.getStack(), this.focusedSlot.id - 9);

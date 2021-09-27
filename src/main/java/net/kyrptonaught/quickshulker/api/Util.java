@@ -38,10 +38,9 @@ public class Util {
         if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
             return false;
         QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
-        if (data.requiresSingularStack() && stack.getCount() > 1)
-            return false;
-        return true;
+        return !data.requiresSingularStack() || stack.getCount() <= 1;
     }
+
     public static Boolean isBundleableItem(ItemStack stack) {
         Item item = stack.getItem();
         if (!(item instanceof BlockItem)) return false;

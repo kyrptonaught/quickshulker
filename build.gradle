@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id 'fabric-loom' version '0.9-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -14,12 +14,14 @@ group = project.maven_group
 minecraft {
 	accessWidener = file("src/main/resources/quickshulker.accesswidener")
 }
+
 repositories {
 	maven { url 'https://maven.fabricmc.net' }
 	maven {url = "https://maven.kyrptonaught.dev"}
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.terraformersmc.com/releases"}
 }
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
@@ -32,10 +34,7 @@ dependencies {
 	//shulkerutils
 	modImplementation 'net.kyrptonaught:shulkerutils:1.0.4-1.17'
 	include 'net.kyrptonaught:shulkerutils:1.0.4-1.17'
-
 }
-
-
 
 processResources {
 	inputs.property "version", project.version

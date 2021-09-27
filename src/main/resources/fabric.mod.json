@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "quickshulker",
-  "version": "1.2.2-1.17",
+  "version": "1.2.3-1.17",
   "name": "Quick Shulker",
   "description": "Quickly open Shulker boxes",
   "authors": [

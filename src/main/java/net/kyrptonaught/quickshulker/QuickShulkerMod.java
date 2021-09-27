@@ -12,7 +12,6 @@ import net.kyrptonaught.quickshulker.api.RegisterQuickShulker;
 import net.kyrptonaught.quickshulker.api.Util;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
-import net.kyrptonaught.shulkerutils.ShulkerUtils;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -56,8 +55,8 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker, Ad
 
     @Override
     public void registerProviders() {
-        QuickOpenableRegistry.register(ShulkerBoxBlock.class, true,true,((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                new ShulkerBoxScreenHandler(i, player.getInventory(), new ItemStackInventory(stack,27)), stack.hasCustomName() ? stack.getName() : new TranslatableText("container.shulkerBox")))));
+        QuickOpenableRegistry.register(ShulkerBoxBlock.class, true, true, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                new ShulkerBoxScreenHandler(i, player.getInventory(), new ItemStackInventory(stack, 27)), stack.hasCustomName() ? stack.getName() : new TranslatableText("container.shulkerBox")))));
 
         QuickOpenableRegistry.register(EnderChestBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                 GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))));

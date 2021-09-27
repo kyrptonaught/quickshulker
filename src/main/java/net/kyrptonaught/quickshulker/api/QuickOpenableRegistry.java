@@ -13,7 +13,7 @@ public class QuickOpenableRegistry {
         quickies.put(block, quickShulkerData);
     }
 
-    public static void register(Class block,  Boolean requiresSingularStack, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
+    public static void register(Class block, Boolean requiresSingularStack, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
         register(block, new QuickShulkerData(consumer, requiresSingularStack, supportsBundleing));
     }
 

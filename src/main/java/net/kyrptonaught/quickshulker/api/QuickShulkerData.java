@@ -6,5 +6,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.function.BiConsumer;
 
-public record QuickShulkerData(BiConsumer<PlayerEntity, ItemStack> consumer, Boolean requiresSingularStack, Boolean supportsBundleing) {
+public record QuickShulkerData(BiConsumer<PlayerEntity, ItemStack> consumer, Boolean requiresSingularStack,
+                               Boolean supportsBundleing) {
 }
