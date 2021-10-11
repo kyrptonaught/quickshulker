@@ -17,4 +17,8 @@ public class ConfigOptions implements AbstractConfigFile {
     @Comment("Right Clicking the opened shulker in your inv closes it")
     public boolean rightClickClose = false;
 
+    @Comment("Enable opening Crafting Tables")
+    public boolean quickCraftingTables = true;
+    @Comment("Enable opening Stonecutter")
+    public boolean quickStonecutter = true;
 }

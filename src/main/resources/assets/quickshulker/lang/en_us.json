@@ -7,5 +7,8 @@
   "key.quickshulker.config.rightClick": "Right Click while holding item",
   "key.quickshulker.config.keybindInInv": "Keybind while hovering in Inventory",
   "key.quickshulker.config.rightClickInInv": "Right click while hovering in Inventory",
-  "key.quickshulker.config.rightClickClose": "Right click opened shulker to close"
+  "key.quickshulker.config.rightClickClose": "Right click opened shulker to close",
+
+  "key.quickshulker.config.quickCraftingTable": "Enable opening Crafting Tables",
+  "key.quickshulker.config.quickStonecutter": "Enable opening Stonecutter"
 }
