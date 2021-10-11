@@ -1,6 +1,7 @@
 package net.kyrptonaught.quickshulker.api;
 
 import net.kyrptonaught.quickshulker.ItemInventoryContainer;
+import net.kyrptonaught.quickshulker.OpenInventoryPacket;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.CraftingTableBlock;
@@ -21,6 +22,13 @@ public class Util {
     }
 
     public static void openItem(PlayerEntity player, int invSlot, int playerInvIndex) {
+        if (QuickShulkerMod.getConfig().rightClickClose && playerInvIndex == ((ItemInventoryContainer) player.currentScreenHandler).getUsedSlotInPlayerInv()) {
+            ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
+            player.currentScreenHandler.close(player);
+            player.currentScreenHandler = player.playerScreenHandler;
+            OpenInventoryPacket.send((ServerPlayerEntity) player);
+            return;
+        }
         ItemStack stack = player.getInventory().getStack(playerInvIndex);
         Block item = Block.getBlockFromItem(stack.getItem());
         stack.removeSubNbt(QuickShulkerMod.MOD_ID);

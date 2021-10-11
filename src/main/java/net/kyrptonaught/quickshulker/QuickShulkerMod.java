@@ -15,6 +15,7 @@ import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.block.StonecutterBlock;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
@@ -63,6 +64,9 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker, Ad
 
         QuickOpenableRegistry.register(CraftingTableBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                 new CraftingScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), new TranslatableText("container.crafting")))));
+
+        QuickOpenableRegistry.register(StonecutterBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), new TranslatableText("container.stonecutter")))));
     }
 
     @Override
