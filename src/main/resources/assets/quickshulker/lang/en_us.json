@@ -10,5 +10,6 @@
   "key.quickshulker.config.rightClickClose": "Right click opened shulker to close",
 
   "key.quickshulker.config.quickCraftingTable": "Enable opening Crafting Tables",
-  "key.quickshulker.config.quickStonecutter": "Enable opening Stonecutter"
+  "key.quickshulker.config.quickStonecutter": "Enable opening Stonecutter",
+  "key.quickshulker.config.quickEChest": "Enable opening EnderChest"
 }

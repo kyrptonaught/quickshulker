@@ -6,10 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.kyrptconfig.config.NonConflicting.AddNonConflictingKeyBind;
 import net.kyrptonaught.kyrptconfig.config.NonConflicting.NonConflictingKeyBindData;
-import net.kyrptonaught.quickshulker.api.ItemStackInventory;
-import net.kyrptonaught.quickshulker.api.QuickOpenableRegistry;
-import net.kyrptonaught.quickshulker.api.RegisterQuickShulker;
-import net.kyrptonaught.quickshulker.api.Util;
+import net.kyrptonaught.quickshulker.api.*;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.minecraft.block.CraftingTableBlock;
@@ -34,6 +31,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker, Ad
     public void onInitialize() {
         config.load();
         OpenShulkerPacket.registerReceivePacket();
+        QuickBundlePacket.registerReceivePacket();
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getMainHandStack();
             if (!world.isClient) {
@@ -59,9 +57,11 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker, Ad
         QuickOpenableRegistry.register(ShulkerBoxBlock.class, true, true, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                 new ShulkerBoxScreenHandler(i, player.getInventory(), new ItemStackInventory(stack, 27)), stack.hasCustomName() ? stack.getName() : new TranslatableText("container.shulkerBox")))));
 
-        QuickOpenableRegistry.register(EnderChestBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))));
-
+        if (getConfig().quickEChest) {
+            QuickShulkerData.QuickEnderData enderData = new QuickShulkerData.QuickEnderData(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                    GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))), false, true);
+            QuickOpenableRegistry.register(EnderChestBlock.class, enderData);
+        }
         if (getConfig().quickCraftingTables)
             QuickOpenableRegistry.register(CraftingTableBlock.class, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                     new CraftingScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), new TranslatableText("container.crafting")))));

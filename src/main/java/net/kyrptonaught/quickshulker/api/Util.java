@@ -7,6 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,7 +35,7 @@ public class Util {
         Block item = Block.getBlockFromItem(stack.getItem());
         stack.removeSubNbt(QuickShulkerMod.MOD_ID);
         if (QuickOpenableRegistry.quickies.containsKey(item.getClass())) {
-            QuickOpenableRegistry.quickies.get(item.getClass()).consumer().accept(player, stack);
+            QuickOpenableRegistry.quickies.get(item.getClass()).openConsumer.accept(player, stack);
             ((ItemInventoryContainer) player.currentScreenHandler).setUsedSlot(playerInvIndex);
             player.currentScreenHandler.addListener(forceCloseScreenIfNotPresent(player, playerInvIndex, stack));
         }
@@ -46,17 +48,20 @@ public class Util {
         if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
             return false;
         QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
-        return !data.requiresSingularStack() || stack.getCount() <= 1;
+        return !data.requiresSingularStack || stack.getCount() <= 1;
     }
 
-    public static Boolean isBundleableItem(ItemStack stack) {
+    public static Inventory getQuickItemInventory(PlayerEntity player, ItemStack stack) {
         Item item = stack.getItem();
-        if (!(item instanceof BlockItem)) return false;
-        Block block = ((BlockItem) item).getBlock();
-        if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
-            return false;
-        QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
-        return data.supportsBundleing();
+        if (item instanceof BlockItem) {
+            Block block = ((BlockItem) item).getBlock();
+            if (QuickOpenableRegistry.quickies.containsKey(block.getClass())) {
+                QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
+                if (data.supportsBundleing)
+                    return data.getInventory(player, stack);
+            }
+        }
+        return null;
     }
 
     public static boolean isEnderChest(ItemStack stack) {

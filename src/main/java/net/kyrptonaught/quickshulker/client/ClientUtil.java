@@ -1,16 +1,20 @@
 package net.kyrptonaught.quickshulker.client;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.OpenShulkerPacket;
+import net.kyrptonaught.quickshulker.QuickBundlePacket;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.api.Util;
+import net.kyrptonaught.quickshulker.mixin.CreativeSlotMixin;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import org.lwjgl.glfw.GLFW;
 
-@Environment(EnvType.CLIENT)
 public class ClientUtil {
 
     public static boolean CheckAndSend(ItemStack stack, int slot) {
@@ -23,6 +27,23 @@ public class ClientUtil {
 
     private static void SendOpenPacket(int slot) {
         OpenShulkerPacket.sendOpenPacket(slot);
+    }
+
+    //See ItemMixin
+    public static void OnClickedBundleClientSideLogic(PlayerEntity player, ItemStack otherStack, Slot slot) {
+        if(player.currentScreenHandler instanceof CreativeInventoryScreen.CreativeScreenHandler)
+        QuickBundlePacket.sendPacket(getSlotId(player.currentScreenHandler, slot), otherStack);
+    }
+
+    public static int getSlotId(ScreenHandler handler, Slot slot) {
+        if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) {
+            if (((CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen).getSelectedTab() == ItemGroup.INVENTORY.getIndex() && slot instanceof CreativeInventoryScreen.CreativeSlot) {
+                return ((CreativeSlotMixin) slot).getSlot().id;
+            } else {
+                return slot.id - 9;
+            }
+        }
+        return slot.id;
     }
 
     public static InputUtil.Key keycode;

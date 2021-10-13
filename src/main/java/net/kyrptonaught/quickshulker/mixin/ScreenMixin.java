@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
+import net.kyrptonaught.quickshulker.client.QuickShulkerModClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -71,14 +72,7 @@ public abstract class ScreenMixin {
     @Unique
     private boolean handleTrigger() {
         if (this.focusedSlot != null) {
-            if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) {
-                if (((CreativeInventoryScreen) (Object) this).getSelectedTab() == ItemGroup.INVENTORY.getIndex() && this.focusedSlot instanceof CreativeInventoryScreen.CreativeSlot) {
-                    return isValid(this.focusedSlot.getStack(), ((CreativeSlotMixin) this.focusedSlot).getSlot().id);
-                } else {
-                    return isValid(this.focusedSlot.getStack(), this.focusedSlot.id - 9);
-                }
-            }
-            return isValid(this.focusedSlot.getStack(), this.focusedSlot.id);
+            return isValid(this.focusedSlot.getStack(), ClientUtil.getSlotId(handler, this.focusedSlot));
         }
         return false;
     }
