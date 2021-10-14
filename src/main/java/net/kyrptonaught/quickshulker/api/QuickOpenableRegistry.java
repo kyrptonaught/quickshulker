@@ -13,12 +13,17 @@ public class QuickOpenableRegistry {
         quickies.put(block, quickShulkerData);
     }
 
+    @Deprecated
     public static void register(Class block, Boolean requiresSingularStack, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
-        register(block, new QuickShulkerData(consumer, requiresSingularStack, supportsBundleing));
+        register(block, new QuickShulkerData(consumer, supportsBundleing));
+    }
+
+    public static void register(Class block, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
+        register(block, new QuickShulkerData(consumer, supportsBundleing));
     }
 
     public static void register(Class block, BiConsumer<PlayerEntity, ItemStack> consumer) {
-        register(block, new QuickShulkerData(consumer, false, false));
+        register(block, new QuickShulkerData(consumer, false));
     }
 
     public static void register(BiConsumer<PlayerEntity, ItemStack> consumer, Class... blocks) {

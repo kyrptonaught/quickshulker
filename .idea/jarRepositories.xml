@@ -32,6 +32,11 @@
       <option name="url" value="https://libraries.minecraft.net/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="UserLocalRemappedMods" />
+      <option name="name" value="UserLocalRemappedMods" />
+      <option name="url" value="file:/$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="maven3" />
       <option name="name" value="maven3" />
       <option name="url" value="https://maven.shedaniel.me/" />
@@ -40,11 +45,6 @@
       <option name="id" value="maven4" />
       <option name="name" value="maven4" />
       <option name="url" value="https://maven.terraformersmc.com/releases" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="UserLocalRemappedMods" />
-      <option name="name" value="UserLocalRemappedMods" />
-      <option name="url" value="file:/$PROJECT_DIR$/../../Minecraft%20Mod%20Dev/quickshulker-1.17/.gradle/loom-cache/remapped_mods/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="maven" />

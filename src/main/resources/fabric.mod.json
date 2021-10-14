@@ -3,7 +3,7 @@
   "id": "quickshulker",
   "version": "1.3.0-1.17",
   "name": "Quick Shulker",
-  "description": "Quickly open Shulker boxes",
+  "description": "Quickly open Shulker boxes and more",
   "authors": [
     "kyrptonaught"
   ],
@@ -24,14 +24,14 @@
     "main": [
       "net.kyrptonaught.quickshulker.QuickShulkerMod"
     ],
-    "client": [
-      "net.kyrptonaught.quickshulker.client.QuickShulkerModClient"
-    ],
     "quickshulker": [
       "net.kyrptonaught.quickshulker.QuickShulkerMod"
     ],
+    "client": [
+      "net.kyrptonaught.quickshulker.client.QuickShulkerModClient"
+    ],
     "registernonconflicting": [
-      "net.kyrptonaught.quickshulker.QuickShulkerMod"
+      "net.kyrptonaught.quickshulker.client.QuickShulkerModClient"
     ],
     "modmenu": [
       "net.kyrptonaught.quickshulker.config.modmenu.ModMenuIntegration"

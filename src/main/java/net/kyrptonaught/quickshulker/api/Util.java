@@ -1,14 +1,11 @@
 package net.kyrptonaught.quickshulker.api;
 
 import net.kyrptonaught.quickshulker.ItemInventoryContainer;
-import net.kyrptonaught.quickshulker.OpenInventoryPacket;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
+import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.minecraft.block.Block;
-import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.block.EnderChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,6 +17,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 public class Util {
 
     public static void openItem(PlayerEntity player, int invSlot) {
+        if (invSlot < 0) {
+            System.out.println("[QuickShulker]: unknown slot opened");
+            //return; //not preventing the crash might make it easier to debug a fix.
+        }
         openItem(player, invSlot, player.currentScreenHandler.slots.get(invSlot).getIndex());
     }
 
@@ -47,8 +48,7 @@ public class Util {
         Block block = ((BlockItem) item).getBlock();
         if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
             return false;
-        QuickShulkerData data = QuickOpenableRegistry.quickies.get(block.getClass());
-        return !data.requiresSingularStack || stack.getCount() <= 1;
+        return stack.getCount() <= 1;
     }
 
     public static Inventory getQuickItemInventory(PlayerEntity player, ItemStack stack) {
@@ -62,18 +62,6 @@ public class Util {
             }
         }
         return null;
-    }
-
-    public static boolean isEnderChest(ItemStack stack) {
-        Item item = stack.getItem();
-        if (!(item instanceof BlockItem)) return false;
-        return ((BlockItem) item).getBlock() instanceof EnderChestBlock;
-    }
-
-    public static boolean isCraftingTable(ItemStack stack) {
-        Item item = stack.getItem();
-        if (!(item instanceof BlockItem)) return false;
-        return ((BlockItem) item).getBlock() instanceof CraftingTableBlock;
     }
 
     public static boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {

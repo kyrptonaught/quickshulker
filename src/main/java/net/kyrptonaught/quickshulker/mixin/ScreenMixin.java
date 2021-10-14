@@ -6,11 +6,9 @@ import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.client.QuickShulkerModClient;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -46,7 +44,7 @@ public abstract class ScreenMixin {
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void QS$keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if (QuickShulkerMod.getConfig().keybingInInv) {
-            if (ClientUtil.keycode.getCategory() == InputUtil.Type.KEYSYM && keyCode == ClientUtil.keycode.getCode()) {
+            if (QuickShulkerModClient.quickKey.doesMatch(InputUtil.Type.KEYSYM, keyCode)) {
                 if (handleTrigger())
                     cir.cancel();
             }
@@ -62,7 +60,7 @@ public abstract class ScreenMixin {
             }
         }
         if (QuickShulkerMod.getConfig().keybingInInv) {
-            if (ClientUtil.keycode.getCategory() == InputUtil.Type.MOUSE && button == ClientUtil.keycode.getCode()) {
+            if (QuickShulkerModClient.quickKey.doesMatch(InputUtil.Type.MOUSE, button)) {
                 if (handleTrigger())
                     cir.cancel();
             }
