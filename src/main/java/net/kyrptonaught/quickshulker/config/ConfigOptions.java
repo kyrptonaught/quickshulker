@@ -4,8 +4,9 @@ import blue.endless.jankson.Comment;
 import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 
 public class ConfigOptions implements AbstractConfigFile {
+    public static String defualtKeybind = "key.keyboard.k";
     @Comment("Activation key")
-    public String keybinding = "key.keyboard.k";
+    public String keybinding = defualtKeybind;
     @Comment("Right Clicking with shulker in hand opens it")
     public boolean rightClickToOpen = true;
     @Comment("Hitting the keybind with shulker in hand opens it")

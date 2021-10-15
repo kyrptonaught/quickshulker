@@ -5,15 +5,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.kyrptonaught.quickshulker.BundleHelper;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
-import net.kyrptonaught.quickshulker.api.Util;
-import net.kyrptonaught.shulkerutils.ShulkerUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.slot.Slot;
@@ -25,26 +19,11 @@ public class QuickBundlePacket {
 
     public static void registerReceivePacket() {
         ServerPlayNetworking.registerGlobalReceiver(QUICK_BUNDLE_PACKET, (server, player, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
-            int slotID = packetByteBuf.readInt();
+            int playerInvSlotID = packetByteBuf.readInt();
             ItemStack stackToBundle = packetByteBuf.readItemStack();
-            server.execute(() -> bundleItem(player, player.getInventory().getStack(slotID), stackToBundle));
+            server.execute(() -> BundleHelper.bundleItemIntoStack(player, player.getInventory().getStack(playerInvSlotID), stackToBundle, null));
         });
         Unbundle.registerReceivePacket();
-    }
-
-    public static ItemStack bundleItem(PlayerEntity player, ItemStack bundle, ItemStack bundlingItem) {
-        Inventory bundlingInv = Util.getQuickItemInventory(player, bundle);
-        if (bundlingInv != null && !ShulkerUtils.isShulkerItem(bundlingItem)) {
-            try (Transaction transaction = Transaction.openOuter()) {
-                long amount = InventoryStorage.of(bundlingInv, null).insert(ItemVariant.of(bundlingItem), bundlingItem.getCount(), transaction);
-                if (amount == 0) return null;
-                transaction.commit();
-                bundlingItem.decrement((int) amount);
-                bundlingInv.onClose(player);
-                return bundlingItem;
-            }
-        }
-        return null;
     }
 
     @Environment(EnvType.CLIENT)
@@ -60,20 +39,14 @@ public class QuickBundlePacket {
     }
 
     public static class Unbundle {
-
         public static void registerReceivePacket() {
             ServerPlayNetworking.registerGlobalReceiver(QUICK_UNBUNDLE_PACKET, (server, player, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
-                int slotID = packetByteBuf.readInt();
+                int playerInvSlotID = packetByteBuf.readInt();
                 ItemStack unbundleStack = packetByteBuf.readItemStack();
                 server.execute(() -> {
-                    Inventory inv = Util.getQuickItemInventory(player, unbundleStack);
-                    for (int i = inv.size() - 1; i >= 0; i--) {
-                        if (!inv.getStack(i).isEmpty()) {
-                            player.getInventory().setStack(slotID, inv.removeStack(i));
-                            inv.onClose(player);
-                            return;
-                        }
-                    }
+                    ItemStack output = BundleHelper.unbundleItem(player, unbundleStack);
+                    if (output != null)
+                        player.getInventory().setStack(playerInvSlotID, output);
                 });
             });
         }

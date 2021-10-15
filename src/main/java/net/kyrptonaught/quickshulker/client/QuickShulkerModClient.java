@@ -10,6 +10,7 @@ import net.kyrptonaught.kyrptconfig.config.NonConflicting.AddNonConflictingKeyBi
 import net.kyrptonaught.kyrptconfig.config.NonConflicting.NonConflictingKeyBindData;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulkerClient;
+import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -48,7 +49,7 @@ public class QuickShulkerModClient implements ClientModInitializer, AddNonConfli
     @Override
     public void addKeyBinding(List<NonConflictingKeyBindData> list) {
         InputUtil.Key key = quickKey.getKeybinding();
-        NonConflictingKeyBindData bindData = new NonConflictingKeyBindData("key.quickshulker.config.keybinding", "key.categories.quickshulker", key.getCategory(), key.getCode(), setKey -> {
+        NonConflictingKeyBindData bindData = new NonConflictingKeyBindData("key.quickshulker.config.keybinding", "key.categories.quickshulker", key, InputUtil.fromTranslationKey(ConfigOptions.defualtKeybind), setKey -> {
             QuickShulkerMod.getConfig().keybinding = setKey.getTranslationKey();
             QuickShulkerMod.config.save();
             quickKey.setRaw(setKey.getTranslationKey());

@@ -29,7 +29,7 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigEntryBuilder entryBuilder = ConfigEntryBuilder.create();
 
             ConfigCategory category = builder.getOrCreateCategory(new TranslatableText("key.quickshulker.config.category.activation"));
-            category.addEntry(entryBuilder.startKeyCodeField(new TranslatableText("key.quickshulker.config.keybinding"), QuickShulkerModClient.quickKey.getKeybinding()).setSaveConsumer(key -> options.keybinding = key.toString()).setDefaultValue(InputUtil.fromKeyCode(InputUtil.GLFW_KEY_K, 0)).build());
+            category.addEntry(entryBuilder.startKeyCodeField(new TranslatableText("key.quickshulker.config.keybinding"), QuickShulkerModClient.quickKey.getKeybinding()).setSaveConsumer(key -> options.keybinding = key.toString()).setDefaultValue(InputUtil.fromTranslationKey(ConfigOptions.defualtKeybind)).build());
             category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("key.quickshulker.config.keybind"), options.keybind).setSaveConsumer(val -> options.keybind = val).setDefaultValue(true).build());
             category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("key.quickshulker.config.rightClick"), options.rightClickToOpen).setSaveConsumer(val -> options.rightClickToOpen = val).setDefaultValue(true).build());
             category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("key.quickshulker.config.keybindInInv"), options.keybingInInv).setSaveConsumer(val -> options.keybingInInv = val).setDefaultValue(true).build());
