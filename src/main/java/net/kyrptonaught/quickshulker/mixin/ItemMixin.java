@@ -24,7 +24,7 @@ public abstract class ItemMixin {
         if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingInsert)) {
             if (!player.world.isClient) {
                 BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
-            } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) {
+            } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) {//stupid creative menu shiz
                 QuickBundlePacket.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), insertStack);
                 BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
             }
@@ -34,24 +34,20 @@ public abstract class ItemMixin {
     @Inject(method = "onStackClicked", at = @At("HEAD"), cancellable = true)
     public void QS$onStackClicked(ItemStack hostStack, Slot slot, ClickType clickType, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         ItemStack insertStack = slot.getStack();
-        if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, true)) {
-            if (!insertStack.isEmpty()) {
-                if (QuickShulkerMod.getConfig().supportsBundlingPickup) {//bundle stack into held item
-                    if (!player.world.isClient) {
-                        BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
-                    } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
-                        QuickBundlePacket.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), insertStack); //todo fix this
-                        QuickBundlePacket.sendCreativeSlotUpdate(insertStack, slot);
-                        BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
-                    }
-                }
-            } else if (QuickShulkerMod.getConfig().supportsBundlingextract) {//unbundle held stack into slot
-                if (!player.world.isClient) {
-                    BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
-                } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
-                    QuickBundlePacket.Unbundle.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), hostStack);
-                    BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
-                }
+        if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingPickup)) {//bundle stack into held item
+            if (!player.world.isClient) {
+                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
+            } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
+                QuickBundlePacket.BundleIntoHeld.sendPacket(insertStack, hostStack);
+                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
+                QuickBundlePacket.sendCreativeSlotUpdate(insertStack, slot);
+            }
+        } else if (BundleHelper.shouldAttemptUnBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingExtract)) {//unbundle held stack into slot
+            if (!player.world.isClient) {
+                BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
+            } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
+                QuickBundlePacket.Unbundle.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), hostStack);
+                BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
             }
         }
     }

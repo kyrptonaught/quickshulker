@@ -23,7 +23,7 @@ public class ConfigOptions implements AbstractConfigFile {
     @Comment("Right Clicking an item with a shulker inserts it")
     public boolean supportsBundlingPickup = true;
     @Comment("Right Clicking an empty slot with a shulker extracts an item")
-    public boolean supportsBundlingextract = true;
+    public boolean supportsBundlingExtract = true;
 
     @Comment("Enable opening Shulker Boxes")
     public boolean quickShulkerBox = true;
