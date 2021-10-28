@@ -14,11 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class BundleHelper {
     public static boolean shouldAttemptBundle(PlayerEntity player, ClickType clickType, ItemStack hostStack, ItemStack insertStack, boolean enabledInConfig) {
-        return (enabledInConfig && clickType == ClickType.RIGHT && isAcceptedInsertItem(insertStack) && Util.getQuickItemInventory(player, hostStack) != null);
+        return (enabledInConfig && clickType == ClickType.RIGHT && hostStack.getCount() == 1 && isAcceptedInsertItem(insertStack) && Util.getQuickItemInventory(player, hostStack) != null);
     }
 
     public static boolean shouldAttemptUnBundle(PlayerEntity player, ClickType clickType, ItemStack hostStack, ItemStack insertStack, boolean enabledInConfig) {
-        return (enabledInConfig && clickType == ClickType.RIGHT && insertStack.isEmpty() && Util.getQuickItemInventory(player, hostStack) != null);
+        return (enabledInConfig && clickType == ClickType.RIGHT && hostStack.getCount() == 1 && insertStack.isEmpty() && Util.getQuickItemInventory(player, hostStack) != null);
     }
 
     private static boolean isAcceptedInsertItem(ItemStack insertStack) {
