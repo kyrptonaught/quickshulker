@@ -46,9 +46,9 @@ public class Util {
         Item item = stack.getItem();
         if (!(item instanceof BlockItem)) return false;
         Block block = ((BlockItem) item).getBlock();
-        if (!QuickOpenableRegistry.quickies.containsKey(block.getClass()))
-            return false;
-        return stack.getCount() <= 1;
+        QuickShulkerData qsdata = QuickOpenableRegistry.quickies.get(block.getClass());
+        if (qsdata == null) return false;
+        return qsdata.ignoreSingleStackCheck || stack.getCount() <= 1;
     }
 
     public static Inventory getQuickItemInventory(PlayerEntity player, ItemStack stack) {

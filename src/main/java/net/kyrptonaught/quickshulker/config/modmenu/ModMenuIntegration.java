@@ -26,10 +26,9 @@ public class ModMenuIntegration implements ModMenuApi {
             ConfigScreen configScreen = new ConfigScreen(screen, new TranslatableText("Quick Shulker Config"));
             configScreen.setSavingEvent(() -> {
                 QuickShulkerMod.config.save();
-                QuickShulkerModClient.quickKey.setRaw(options.keybinding);
             });
             ConfigSection activationSection = new ConfigSection(configScreen, new TranslatableText("key.quickshulker.config.category.activation"));
-            activationSection.addConfigItem(new KeybindItem(new TranslatableText("key.quickshulker.config.keybinding"), options.keybinding, ConfigOptions.defualtKeybind).setSaveConsumer(value -> options.keybinding = value));
+            activationSection.addConfigItem(new KeybindItem(new TranslatableText("key.quickshulker.config.keybinding"), options.keybinding.rawKey, ConfigOptions.defualtKeybind).setSaveConsumer(value -> options.keybinding.setRaw(value)));
             activationSection.addConfigItem(new BooleanItem(new TranslatableText("key.quickshulker.config.keybind"), options.keybind, true).setSaveConsumer(value -> options.keybind = value));
             activationSection.addConfigItem(new BooleanItem(new TranslatableText("key.quickshulker.config.rightClick"), options.rightClickToOpen, true).setSaveConsumer(value -> options.rightClickToOpen = value));
             activationSection.addConfigItem(new BooleanItem(new TranslatableText("key.quickshulker.config.keybindInInv"), options.keybingInInv, true).setSaveConsumer(value -> options.keybingInInv = value));

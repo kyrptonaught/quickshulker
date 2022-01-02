@@ -11,11 +11,22 @@ import java.util.function.BiConsumer;
 
 public class QuickShulkerData {
     public BiConsumer<PlayerEntity, ItemStack> openConsumer;
-    public Boolean supportsBundleing;
+    public Boolean supportsBundleing = false;
+    public Boolean ignoreSingleStackCheck = false;
+
+    public QuickShulkerData() {
+
+    }
 
     public QuickShulkerData(BiConsumer<PlayerEntity, ItemStack> openConsumer, Boolean supportsBundleing) {
         this.openConsumer = openConsumer;
         this.supportsBundleing = supportsBundleing;
+    }
+
+    public QuickShulkerData(BiConsumer<PlayerEntity, ItemStack> openConsumer, Boolean supportsBundleing, Boolean ignoreSingleStackCheck) {
+        this.openConsumer = openConsumer;
+        this.supportsBundleing = supportsBundleing;
+        this.ignoreSingleStackCheck = ignoreSingleStackCheck;
     }
 
     public Inventory getInventory(PlayerEntity player, ItemStack stack) {
@@ -25,6 +36,10 @@ public class QuickShulkerData {
     public static class QuickEnderData extends QuickShulkerData {
         public QuickEnderData(BiConsumer<PlayerEntity, ItemStack> openConsumer, Boolean supportsBundleing) {
             super(openConsumer, supportsBundleing);
+        }
+
+        public QuickEnderData(BiConsumer<PlayerEntity, ItemStack> openConsumer, Boolean supportsBundleing, Boolean ignoreSingleStackCheck) {
+            super(openConsumer, supportsBundleing, ignoreSingleStackCheck);
         }
 
         public Inventory getInventory(PlayerEntity player, ItemStack stack) {

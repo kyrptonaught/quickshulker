@@ -27,8 +27,48 @@ public class QuickOpenableRegistry {
     }
 
     public static void register(BiConsumer<PlayerEntity, ItemStack> consumer, Class... blocks) {
+
         for (Class block : blocks) {
             register(block, consumer);
+        }
+    }
+
+    public static class Builder {
+        private Class[] blocks;
+        private final QuickShulkerData qsdata;
+
+        public Builder() {
+            qsdata = new QuickShulkerData();
+        }
+
+        public void register() {
+            for (Class block : blocks)
+                QuickOpenableRegistry.register(block, qsdata);
+        }
+
+        public Builder setBlock(Class block) {
+            this.blocks = new Class[]{block};
+            return this;
+        }
+
+        public Builder setBlocks(Class... blocks) {
+            this.blocks = blocks;
+            return this;
+        }
+
+        public Builder setOpenAction(BiConsumer<PlayerEntity, ItemStack> openAction) {
+            qsdata.openConsumer = openAction;
+            return this;
+        }
+
+        public Builder supportsBundleing(Boolean supportsBundleing) {
+            qsdata.supportsBundleing = supportsBundleing;
+            return this;
+        }
+
+        public Builder ignoreSingleStackCheck(Boolean ignoreSingleStackCheck) {
+            qsdata.ignoreSingleStackCheck = ignoreSingleStackCheck;
+            return this;
         }
     }
 }
