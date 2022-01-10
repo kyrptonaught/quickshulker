@@ -10,7 +10,6 @@ import net.kyrptonaught.kyrptconfig.config.screen.items.BooleanItem;
 import net.kyrptonaught.kyrptconfig.config.screen.items.KeybindItem;
 import net.kyrptonaught.kyrptconfig.config.screen.items.SubItem;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
-import net.kyrptonaught.quickshulker.client.QuickShulkerModClient;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.minecraft.text.TranslatableText;
 

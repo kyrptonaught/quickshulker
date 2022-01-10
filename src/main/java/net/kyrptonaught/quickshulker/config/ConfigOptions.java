@@ -1,7 +1,6 @@
 package net.kyrptonaught.quickshulker.config;
 
 import blue.endless.jankson.Comment;
-import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 import net.kyrptonaught.kyrptconfig.config.ConfigWDefaults;
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;

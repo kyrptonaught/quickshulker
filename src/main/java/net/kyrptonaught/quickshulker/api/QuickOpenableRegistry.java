@@ -1,58 +1,69 @@
 package net.kyrptonaught.quickshulker.api;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 public class QuickOpenableRegistry {
-    public static HashMap<Class, QuickShulkerData> quickies = new HashMap<>();
+    private static final HashMap<Class<? extends ItemConvertible>, QuickShulkerData> quickies = new HashMap<>();
 
-    public static void register(Class block, QuickShulkerData quickShulkerData) {
-        quickies.put(block, quickShulkerData);
+    public static QuickShulkerData getQuickie(ItemConvertible item) {
+        if (item instanceof BlockItem) {
+            if (quickies.containsKey(((BlockItem) item).getBlock().getClass()))
+                return quickies.get(((BlockItem) item).getBlock().getClass());
+        }
+        return quickies.get(item.getClass());
+    }
+
+    public static void register(Class<? extends ItemConvertible> quickItem, QuickShulkerData quickShulkerData) {
+        quickies.put(quickItem, quickShulkerData);
     }
 
     @Deprecated
-    public static void register(Class block, Boolean requiresSingularStack, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
-        register(block, new QuickShulkerData(consumer, supportsBundleing));
+    public static void register(Class<? extends ItemConvertible> quickItem, Boolean requiresSingularStack, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
+        register(quickItem, new QuickShulkerData(consumer, supportsBundleing));
     }
 
-    public static void register(Class block, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
-        register(block, new QuickShulkerData(consumer, supportsBundleing));
+    public static void register(Class<? extends ItemConvertible> quickItem, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
+        register(quickItem, new QuickShulkerData(consumer, supportsBundleing));
     }
 
-    public static void register(Class block, BiConsumer<PlayerEntity, ItemStack> consumer) {
-        register(block, new QuickShulkerData(consumer, false));
+    public static void register(Class<? extends ItemConvertible> quickItem, BiConsumer<PlayerEntity, ItemStack> consumer) {
+        register(quickItem, new QuickShulkerData(consumer, false));
     }
 
-    public static void register(BiConsumer<PlayerEntity, ItemStack> consumer, Class... blocks) {
-
-        for (Class block : blocks) {
+    public static void register(BiConsumer<PlayerEntity, ItemStack> consumer, Class<? extends ItemConvertible>... quickItems) {
+        for (Class<? extends ItemConvertible> block : quickItems) {
             register(block, consumer);
         }
     }
 
     public static class Builder {
-        private Class[] blocks;
+        private final List<Class<? extends ItemConvertible>> quickItems = new ArrayList<>();
         private final QuickShulkerData qsdata;
 
         public Builder() {
             qsdata = new QuickShulkerData();
         }
 
+        public Builder(QuickShulkerData qsdata) {
+            this.qsdata = qsdata;
+        }
+
         public void register() {
-            for (Class block : blocks)
-                QuickOpenableRegistry.register(block, qsdata);
+            for (Class<? extends ItemConvertible> quickItem : quickItems)
+                QuickOpenableRegistry.register(quickItem, qsdata);
         }
 
-        public Builder setBlock(Class block) {
-            this.blocks = new Class[]{block};
-            return this;
-        }
-
-        public Builder setBlocks(Class... blocks) {
-            this.blocks = blocks;
+        @SafeVarargs
+        public final Builder setItem(Class<? extends ItemConvertible>... quickItems) {
+            this.quickItems.addAll(List.of(quickItems));
             return this;
         }
 

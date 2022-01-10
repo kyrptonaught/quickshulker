@@ -54,7 +54,7 @@ public abstract class ScreenMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void QS$mousePressed(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         if (QuickShulkerMod.getConfig().rightClickInv) {
-            if (this.handler.getCursorStack().isEmpty() && button == 1) {
+            if (this.handler.getCursorStack().isEmpty() && button == 1 && this.focusedSlot != null && this.focusedSlot.getStack().getCount() == 1) {
                 if (handleTrigger())
                     cir.cancel();
             }

@@ -7,20 +7,14 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.kyrptonaught.kyrptconfig.config.NonConflicting.AddNonConflictingKeyBind;
-import net.kyrptonaught.kyrptconfig.config.NonConflicting.NonConflictingKeyBindData;
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.kyrptconfig.keybinding.DisplayOnlyKeyBind;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulkerClient;
-import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
-
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class QuickShulkerModClient implements ClientModInitializer {

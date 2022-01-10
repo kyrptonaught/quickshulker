@@ -1,6 +1,5 @@
 package net.kyrptonaught.quickshulker.api;
 
-
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.shulkerutils.ShulkerUtils;
 import net.minecraft.entity.player.PlayerEntity;
