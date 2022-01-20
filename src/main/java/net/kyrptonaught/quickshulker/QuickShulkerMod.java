@@ -74,7 +74,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
         if (getConfig().quickStonecutter)
             new QuickOpenableRegistry.Builder().setItem(StonecutterBlock.class).ignoreSingleStackCheck(true)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                            new CraftingScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), new TranslatableText("container.stonecutter")))))
+                            new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), new TranslatableText("container.stonecutter")))))
                     .register();
     }
 }
