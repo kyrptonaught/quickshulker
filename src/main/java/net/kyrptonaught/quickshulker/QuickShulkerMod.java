@@ -63,7 +63,6 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             QuickShulkerData.QuickEnderData enderData = new QuickShulkerData.QuickEnderData(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                     GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), new TranslatableText("container.enderchest")))), true, true);
             QuickOpenableRegistry.register(EnderChestBlock.class, enderData);
-            QuickOpenableRegistry.register(EggItem.class, enderData);
         }
         if (getConfig().quickCraftingTables)
             new QuickOpenableRegistry.Builder().setItem(CraftingTableBlock.class).ignoreSingleStackCheck(true)
