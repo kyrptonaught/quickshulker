@@ -3,6 +3,7 @@ package net.kyrptonaught.quickshulker.mixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
+import net.kyrptonaught.quickshulker.api.Util;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.client.QuickShulkerModClient;
 import net.minecraft.client.MinecraftClient;
@@ -77,7 +78,8 @@ public abstract class ScreenMixin {
 
     @Unique
     private boolean isValid(ItemStack stack, int id) {
-        if (this.focusedSlot.inventory instanceof PlayerInventory)
+        if (this.focusedSlot.inventory instanceof PlayerInventory && !PlayerInventory.isValidHotbarIndex(this.focusedSlot.getIndex())
+	        &&this.handler != null && MinecraftClient.getInstance().player != null && !Util.isOpenableItem(MinecraftClient.getInstance().player.getOffHandStack()))
             if (ClientUtil.CheckAndSend(stack, id)) {
                 QuickShulkerMod.lastMouseX = MinecraftClient.getInstance().mouse.getX();
                 QuickShulkerMod.lastMouseY = MinecraftClient.getInstance().mouse.getY();
