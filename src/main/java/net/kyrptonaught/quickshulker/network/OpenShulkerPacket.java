@@ -7,7 +7,9 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.api.Util;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class OpenShulkerPacket {
@@ -16,6 +18,14 @@ public class OpenShulkerPacket {
     public static void registerReceivePacket() {
         ServerPlayNetworking.registerGlobalReceiver(OPEN_SHULKER_PACKET, (server, player, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
             int invSlot = packetByteBuf.readInt();
+	        try{
+	            if(PlayerInventory.isValidHotbarIndex(player.currentScreenHandler.slots.get(invSlot).getIndex()) || Util.isOpenableItem(player.getOffHandStack())){
+					return;
+	            }
+			}
+			catch (Exception e){
+				return;
+			}
             server.execute(() -> Util.openItem(player, invSlot));
         });
     }
