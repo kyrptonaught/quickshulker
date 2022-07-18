@@ -1,11 +1,12 @@
 package net.kyrptonaught.quickshulker.config;
 
 import blue.endless.jankson.Comment;
+import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 import net.kyrptonaught.kyrptconfig.config.ConfigWDefaults;
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 
-public class ConfigOptions extends ConfigWDefaults {
+public class ConfigOptions implements AbstractConfigFile {
     public static String defualtKeybind = "key.keyboard.k";
     @Comment("Activation key")
     public CustomKeyBinding keybinding = CustomKeyBinding.configDefault(QuickShulkerMod.MOD_ID, "key.keyboard.k");
@@ -36,13 +37,4 @@ public class ConfigOptions extends ConfigWDefaults {
     @Comment("Enable opening EnderChest")
     public boolean quickEChest = true;
 
-    @Override
-    public ConfigOptions getDefaults() {
-        return (ConfigOptions) super.getDefaults();
-    }
-
-    @Override
-    public void afterLoad() {
-        keybinding.copyFromDefault(getDefaults().keybinding);
-    }
 }
