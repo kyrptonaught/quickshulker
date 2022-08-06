@@ -34,7 +34,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             ItemStack stack = player.getStackInHand(hand);
             if (!world.isClient) {
                 if (QuickShulkerMod.getConfig().rightClickToOpen) {
-                    if (Util.isOpenableItem(stack)) {
+                    if (Util.isOpenableItem(stack) && Util.canOpenInHand(stack)) {
                         if (hand == Hand.MAIN_HAND)
                             Util.openItem(player, 0, player.getInventory().selectedSlot);
                         else Util.openItem(player, 0, PlayerInventory.OFF_HAND_SLOT);
@@ -55,22 +55,34 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
     @Override
     public void registerProviders() {
         if (getConfig().quickShulkerBox)
-            QuickOpenableRegistry.register(ShulkerBoxBlock.class, true, ((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                    new ShulkerBoxScreenHandler(i, player.getInventory(), new ItemStackInventory(stack, 27)), stack.hasCustomName() ? stack.getName() : Text.translatable("container.shulkerBox")))));
+            new QuickOpenableRegistry.Builder()
+                    .setItem(ShulkerBoxBlock.class)
+                    .supportsBundleing(true)
+                    .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                            new ShulkerBoxScreenHandler(i, player.getInventory(), new ItemStackInventory(stack, 27)), stack.hasCustomName() ? stack.getName() : Text.translatable("container.shulkerBox")))))
+                    .register();
 
-        if (getConfig().quickEChest) {
-            QuickShulkerData.QuickEnderData enderData = new QuickShulkerData.QuickEnderData(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                    GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), Text.translatable("container.enderchest")))), true, true);
-            QuickOpenableRegistry.register(EnderChestBlock.class, enderData);
-        }
+        if (getConfig().quickEChest)
+            new QuickOpenableRegistry.Builder(new QuickShulkerData.QuickEnderData())
+                    .setItem(EnderChestBlock.class)
+                    .supportsBundleing(true)
+                    .ignoreSingleStackCheck(true)
+                    .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                            GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), Text.translatable("container.enderchest")))))
+                    .register();
+
         if (getConfig().quickCraftingTables)
-            new QuickOpenableRegistry.Builder().setItem(CraftingTableBlock.class).ignoreSingleStackCheck(true)
+            new QuickOpenableRegistry.Builder()
+                    .setItem(CraftingTableBlock.class)
+                    .ignoreSingleStackCheck(true)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new CraftingScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), Text.translatable("container.crafting")))))
                     .register();
 
         if (getConfig().quickStonecutter)
-            new QuickOpenableRegistry.Builder().setItem(StonecutterBlock.class).ignoreSingleStackCheck(true)
+            new QuickOpenableRegistry.Builder()
+                    .setItem(StonecutterBlock.class)
+                    .ignoreSingleStackCheck(true)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), Text.translatable("container.stonecutter")))))
                     .register();

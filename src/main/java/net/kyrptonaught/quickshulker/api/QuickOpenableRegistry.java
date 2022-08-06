@@ -1,6 +1,7 @@
 package net.kyrptonaught.quickshulker.api;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class QuickOpenableRegistry {
     private static final HashMap<Class<? extends ItemConvertible>, QuickShulkerData> quickies = new HashMap<>();
@@ -30,14 +32,18 @@ public class QuickOpenableRegistry {
         register(quickItem, new QuickShulkerData(consumer, supportsBundleing));
     }
 
+    @Deprecated
     public static void register(Class<? extends ItemConvertible> quickItem, Boolean supportsBundleing, BiConsumer<PlayerEntity, ItemStack> consumer) {
         register(quickItem, new QuickShulkerData(consumer, supportsBundleing));
     }
 
+    @Deprecated
     public static void register(Class<? extends ItemConvertible> quickItem, BiConsumer<PlayerEntity, ItemStack> consumer) {
         register(quickItem, new QuickShulkerData(consumer, false));
     }
 
+    @SafeVarargs
+    @Deprecated
     public static void register(BiConsumer<PlayerEntity, ItemStack> consumer, Class<? extends ItemConvertible>... quickItems) {
         for (Class<? extends ItemConvertible> block : quickItems) {
             register(block, consumer);
@@ -74,6 +80,21 @@ public class QuickOpenableRegistry {
 
         public Builder supportsBundleing(Boolean supportsBundleing) {
             qsdata.supportsBundleing = supportsBundleing;
+            return this;
+        }
+
+        public Builder getBundleInv(BiFunction<PlayerEntity, ItemStack, Inventory> getBundleInv) {
+            qsdata.bundleInvGetter = getBundleInv;
+            return this;
+        }
+
+        public Builder canBundleInsertItem(CanBundleInsertItemFunction canBundleInsertItem) {
+            qsdata.canBundleInsertItem = canBundleInsertItem;
+            return this;
+        }
+
+        public Builder canOpenInHand(boolean canOpenInHand) {
+            qsdata.canOpenInHand = canOpenInHand;
             return this;
         }
 

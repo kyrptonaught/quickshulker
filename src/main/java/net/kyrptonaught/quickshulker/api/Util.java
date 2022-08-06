@@ -54,6 +54,14 @@ public class Util {
         return null;
     }
 
+    public static boolean canOpenInHand(ItemStack stack) {
+        QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
+        if (qsData != null) {
+            return qsData.canOpenInHand;
+        }
+        return false;
+    }
+
     public static boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {
         return stack1.getItem() == stack2.getItem() && ItemStack.areNbtEqual(stack1, stack2) && stack1.getCount() == stack2.getCount();
     }
