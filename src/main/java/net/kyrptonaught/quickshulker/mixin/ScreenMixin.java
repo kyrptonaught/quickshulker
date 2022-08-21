@@ -5,13 +5,16 @@ import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.client.QuickShulkerModClient;
+import net.kyrptonaught.shulkerutils.ShulkerUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.hit.HitResult;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -69,20 +72,36 @@ public abstract class ScreenMixin {
 
     @Unique
     private boolean handleTrigger() {
-        if (this.focusedSlot != null) {
+        if (this.focusedSlot != null && this.focusedSlot.inventory instanceof PlayerInventory && isHandsValid()) {
             return isValid(this.focusedSlot.getStack(), ClientUtil.getSlotId(handler, this.focusedSlot));
         }
         return false;
     }
 
     @Unique
+    private boolean isHandsValid() {
+        HitResult hit = MinecraftClient.getInstance().crosshairTarget;
+        if (hit == null) return true;
+
+        switch(hit.getType()) {
+            case BLOCK:
+                ClientPlayerEntity player = MinecraftClient.getInstance().player;
+                if (ShulkerUtils.isShulkerItem(player.getOffHandStack()) || ShulkerUtils.isShulkerItem(player.getMainHandStack())) {
+                    return false;
+                }
+                break;
+            default:
+        }
+        return true;
+    }
+
+    @Unique
     private boolean isValid(ItemStack stack, int id) {
-        if (this.focusedSlot.inventory instanceof PlayerInventory)
-            if (ClientUtil.CheckAndSend(stack, id)) {
-                QuickShulkerMod.lastMouseX = MinecraftClient.getInstance().mouse.getX();
-                QuickShulkerMod.lastMouseY = MinecraftClient.getInstance().mouse.getY();
-                return true;
-            }
+        if (ClientUtil.CheckAndSend(stack, id)) {
+            QuickShulkerMod.lastMouseX = MinecraftClient.getInstance().mouse.getX();
+            QuickShulkerMod.lastMouseY = MinecraftClient.getInstance().mouse.getY();
+            return true;
+        }
         return false;
     }
 }
