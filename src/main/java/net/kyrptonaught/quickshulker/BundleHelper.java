@@ -3,6 +3,8 @@ package net.kyrptonaught.quickshulker;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.kyrptonaught.quickshulker.api.QuickOpenableRegistry;
+import net.kyrptonaught.quickshulker.api.QuickShulkerData;
 import net.kyrptonaught.quickshulker.api.Util;
 import net.kyrptonaught.shulkerutils.ShulkerUtils;
 import net.minecraft.entity.player.PlayerEntity;
@@ -52,7 +54,8 @@ public class BundleHelper {
 
     private static ItemStack bundleItem(PlayerEntity player, ItemStack hostStack, ItemStack insertStack) {
         Inventory bundlingInv = Util.getQuickItemInventory(player, hostStack);
-        if (bundlingInv != null && !ShulkerUtils.isShulkerItem(insertStack)) {
+        QuickShulkerData qsdata = QuickOpenableRegistry.getQuickie(hostStack.getItem());
+        if (bundlingInv != null && qsdata.canBundleInsertItem(player, bundlingInv, hostStack, insertStack)) {
             try (Transaction transaction = Transaction.openOuter()) {
                 long amount = InventoryStorage.of(bundlingInv, null).insert(ItemVariant.of(insertStack), insertStack.getCount(), transaction);
                 if (amount == 0) return null;
