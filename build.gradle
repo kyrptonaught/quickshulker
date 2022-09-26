@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.11-SNAPSHOT'
+	id 'fabric-loom' version '0.12-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
@@ -33,14 +33,6 @@ dependencies {
 	//shulkerutils
 	modImplementation 'net.kyrptonaught:shulkerutils:1.0.4-1.18'
 	include 'net.kyrptonaught:shulkerutils:1.0.4-1.18'
-}
-
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -53,7 +45,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.archivesBaseName}" }
 	}
 }
 
@@ -67,12 +59,10 @@ publishing {
 	}
 	repositories {
 		maven {
-			url 's3://maven.kyrptonaught.dev'
+			url ='s3://maven.kyrptonaught.dev'
 			credentials(AwsCredentials) {
 				accessKey = System.getenv('maven-key-id')
 				secretKey = System.getenv('maven-key')
-				//https://s3.us-east-2.amazonaws.com/maven.kyrptonaught.dev/release/net/kyrptonaught/customportalapi/maven-metadata.xml
-				//https://s3.us-east-2.amazonaws.com/kyrptonaught.maven-repo/release
 			}
 		}
 	}
