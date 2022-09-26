@@ -13,7 +13,6 @@ import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.StonecutterBlock;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.EggItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
 import net.minecraft.text.TranslatableText;
@@ -31,6 +30,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
         config.load();
         OpenShulkerPacket.registerReceivePacket();
         QuickBundlePacket.registerReceivePacket();
+
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getStackInHand(hand);
             if (!world.isClient) {
