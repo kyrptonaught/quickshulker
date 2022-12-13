@@ -46,7 +46,7 @@ public abstract class ScreenMixin {
         if (QuickShulkerMod.getConfig().keybingInInv) {
             if (QuickShulkerModClient.getKeybinding().matches(keyCode, InputUtil.Type.KEYSYM)) {
                 if (handleTrigger())
-                    cir.cancel();
+                    cir.setReturnValue(true);
             }
         }
     }
@@ -56,13 +56,13 @@ public abstract class ScreenMixin {
         if (QuickShulkerMod.getConfig().rightClickInv) {
             if (this.handler.getCursorStack().isEmpty() && button == 1 && this.focusedSlot != null && this.focusedSlot.getStack().getCount() == 1) {
                 if (handleTrigger())
-                    cir.cancel();
+                    cir.setReturnValue(true);
             }
         }
         if (QuickShulkerMod.getConfig().keybingInInv) {
             if (QuickShulkerModClient.getKeybinding().matches(button, InputUtil.Type.MOUSE)) {
                 if (handleTrigger())
-                    cir.cancel();
+                    cir.setReturnValue(true);
             }
         }
     }
