@@ -32,7 +32,7 @@ public class ClientUtil {
 
     public static int getSlotId(ScreenHandler handler, Slot slot) {
         if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) {
-            if (((CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen).getSelectedTab() == ItemGroup.INVENTORY.getIndex() && slot instanceof CreativeInventoryScreen.CreativeSlot) {
+            if (((CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen).isInventoryTabSelected() && slot instanceof CreativeInventoryScreen.CreativeSlot) {
                 return ((CreativeSlotMixin) slot).getSlot().id;
             } else {
                 return slot.id - 9;
@@ -43,7 +43,7 @@ public class ClientUtil {
 
     public static int getPlayerInvSlot(ScreenHandler handler, Slot slot) {
         if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) {
-            if (((CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen).getSelectedTab() == ItemGroup.INVENTORY.getIndex() && slot instanceof CreativeInventoryScreen.CreativeSlot) {
+            if (((CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen).isInventoryTabSelected() && slot instanceof CreativeInventoryScreen.CreativeSlot) {
                 return ((CreativeSlotMixin) slot).getSlot().getIndex();
             }
         }
