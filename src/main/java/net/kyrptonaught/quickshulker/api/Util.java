@@ -27,9 +27,7 @@ public class Util {
 
     public static void openItem(PlayerEntity player, int invSlot, int playerInvIndex) {
         if (QuickShulkerMod.getConfig().rightClickClose && playerInvIndex == ((ItemInventoryContainer) player.currentScreenHandler).getUsedSlotInPlayerInv()) {
-            ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
-            player.currentScreenHandler.close(player);
-            player.currentScreenHandler = player.playerScreenHandler;
+            ((ServerPlayerEntity) player).closeHandledScreen();
             OpenInventoryPacket.send((ServerPlayerEntity) player);
             return;
         }
@@ -37,7 +35,7 @@ public class Util {
         stack.removeSubNbt(QuickShulkerMod.MOD_ID);
         QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
         if (qsData != null) {
-            if(isBlockBlockingQuickOpen(player.getWorld(), player))
+            if (isBlockBlockingQuickOpen(player.getWorld(), player))
                 return;
             qsData.openConsumer.accept(player, stack);
             ((ItemInventoryContainer) player.currentScreenHandler).setUsedSlot(playerInvIndex);
@@ -91,9 +89,7 @@ public class Util {
 
             public void isValid() {
                 if (!areItemsEqual(stack, player.getInventory().getStack(slotID))) {
-                    ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
-                    player.currentScreenHandler.close(player);
-                    player.currentScreenHandler = player.playerScreenHandler;
+                    ((ServerPlayerEntity) player).closeHandledScreen();
                 }
             }
         };
