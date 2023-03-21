@@ -37,7 +37,8 @@
   "depends": {
     "fabricloader": ">=0.12.5",
     "fabric": "*",
-    "java": ">=17"
+    "java": ">=17",
+    "optigui": ">=2.0.0-beta.2"
   },
   "accessWidener": "quickshulker.accesswidener"
 }
