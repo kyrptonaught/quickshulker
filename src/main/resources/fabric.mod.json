@@ -32,6 +32,9 @@
     ],
     "modmenu": [
       "net.kyrptonaught.quickshulker.config.modmenu.ModMenuIntegration"
+    ],
+    "optigui": [
+      "net.kyrptonaught.quickshulker.optigui.Initializer"
     ]
   },
   "depends": {
