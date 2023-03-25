@@ -64,7 +64,7 @@ public class ClientUtil {
         return slot.getIndex();
     }
 
-    private static Object getInteractionTargetData(ItemStack stack) {
+    public static Object getInteractionTargetData(ItemStack stack) {
         MinecraftClient client = MinecraftClient.getInstance();
         RegistryLookupService lookup = Services.getService(RegistryLookupService.class);
 
@@ -90,15 +90,11 @@ public class ClientUtil {
                     "green_shulker_box",
                     "red_shulker_box",
                     "black_shulker_box" -> new ShulkerBoxProperties(
-                    "shulker_box",
-                    TexturePath.SHULKER_BOX,
                     name,
                     biome,
                     client.player.getBlockY(),
                     getColorFromShulkerBox(container));
             case "ender_chest" -> new ChestProperties(
-                    "chest",
-                    TexturePath.GENERIC_54,
                     name,
                     biome,
                     client.player.getBlockY(),
@@ -108,15 +104,7 @@ public class ClientUtil {
                     true,
                     false,
                     false);
-            case "crafting_table" -> new OptiFineProperties(
-                    "crafting",
-                    TexturePath.CRAFTING_TABLE,
-                    name,
-                    biome,
-                    client.player.getBlockY());
-            case "stonecutter" -> new OptiFineProperties(
-                    "_stonecutter",
-                    TexturePath.STONECUTTER,
+            case "crafting_table", "stonecutter" -> new OptiFineProperties(
                     name,
                     biome,
                     client.player.getBlockY());
