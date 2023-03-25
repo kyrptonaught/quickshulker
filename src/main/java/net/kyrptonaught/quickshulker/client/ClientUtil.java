@@ -6,29 +6,20 @@ import net.kyrptonaught.quickshulker.network.OpenShulkerPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import opekope2.optifinecompat.properties.ChestProperties;
 import opekope2.optifinecompat.properties.OptiFineProperties;
 import opekope2.optifinecompat.properties.ShulkerBoxProperties;
-import opekope2.optigui.interaction.InteractionTarget;
-import opekope2.optigui.service.InteractionService;
 import opekope2.optigui.service.RegistryLookupService;
 import opekope2.optigui.service.Services;
-import opekope2.util.TexturePath;
 
 public class ClientUtil {
 
     public static boolean CheckAndSend(ItemStack stack, int slot) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (Util.isOpenableItem(stack) && !Util.isBlockBlockingQuickOpen(MinecraftClient.getInstance().world, client.player)) {
-            InteractionService interaction = Services.getService(InteractionService.class);
-            interaction.interact(client.player, client.world, Hand.MAIN_HAND, new InteractionTarget.Preprocessed(getInteractionTargetData(stack)), null);
-
+        if (Util.isOpenableItem(stack) && !Util.isBlockBlockingQuickOpen(MinecraftClient.getInstance().world, MinecraftClient.getInstance().player)) {
             SendOpenPacket(slot);
             return true;
         }
