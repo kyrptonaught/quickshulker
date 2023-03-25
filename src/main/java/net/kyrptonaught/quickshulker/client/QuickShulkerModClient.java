@@ -13,16 +13,12 @@ import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulkerClient;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.kyrptonaught.quickshulker.network.OpenQuickiePacket;
+import net.kyrptonaught.quickshulker.optigui.InteractionWrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import opekope2.optigui.interaction.InteractionTarget;
-import opekope2.optigui.service.InteractionService;
-import opekope2.optigui.service.Services;
-
-import static net.kyrptonaught.quickshulker.client.ClientUtil.getInteractionTargetData;
 
 @Environment(EnvType.CLIENT)
 public class QuickShulkerModClient implements ClientModInitializer {
@@ -49,8 +45,7 @@ public class QuickShulkerModClient implements ClientModInitializer {
             ItemStack stack = packet.readItemStack();
 
             client.execute(() -> {
-                InteractionService interaction = Services.getService(InteractionService.class);
-                interaction.interact(client.player, client.world, Hand.MAIN_HAND, new InteractionTarget.Preprocessed(getInteractionTargetData(stack)), null);
+                InteractionWrapper.getImpl().interact(client.player, client.world, Hand.MAIN_HAND, stack);
             });
         });
         FabricLoader.getInstance().getEntrypoints(QuickShulkerMod.MOD_ID + "_client", RegisterQuickShulkerClient.class).forEach(RegisterQuickShulkerClient::registerClient);
