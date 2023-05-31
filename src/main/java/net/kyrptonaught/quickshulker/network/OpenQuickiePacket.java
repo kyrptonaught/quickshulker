@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class OpenQuickiePacket {
-    public static final Identifier OPEN_QUICKIE = new Identifier(QuickShulkerMod.MOD_ID, "openquickie");
+    public static final Identifier OPEN_QUICKIE = new Identifier(QuickShulkerMod.MOD_ID, "open_quickie");
 
     public static void send(ServerPlayerEntity player, ItemStack stack) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
