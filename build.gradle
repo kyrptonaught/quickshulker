@@ -40,7 +40,8 @@ dependencies {
 	include 'net.kyrptonaught:shulkerutils:1.0.4-1.19'
 
     //optigui
-    modImplementation ("maven.modrinth:optigui:2.0.0-beta.3")
+    modCompileOnly ("maven.modrinth:optigui:2.1.0-beta.3")
+	modLocalRuntime ("maven.modrinth:optigui:2.1.0-beta.3")
 }
 
 tasks.withType(JavaCompile).configureEach {
