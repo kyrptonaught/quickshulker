@@ -1,5 +1,6 @@
 package net.kyrptonaught.quickshulker.optigui;
 
+import net.fabricmc.loader.api.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,9 +17,31 @@ import opekope2.optigui.service.RegistryLookupService;
 import opekope2.optigui.service.Services;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class Initializer implements EntryPoint {
     @Override
     public void onInitialize(@NotNull InitializerContext initializerContext) {
+        final Version optiGuiMinVersion;
+        try {
+            optiGuiMinVersion = SemanticVersion.parse("2.1.0-beta.1");
+        } catch (VersionParsingException e) {
+            // Should never happen
+            return;
+        }
+
+        Optional<ModContainer> optigui = FabricLoader.getInstance().getModContainer("optigui");
+        if (optigui.isEmpty()) {
+            // OptiGUI not loaded. Some other mod called this entry point
+            return;
+        }
+
+        Version optiGuiVersion = optigui.get().getMetadata().getVersion();
+        if (optiGuiVersion.compareTo(optiGuiMinVersion) < 0) {
+            // OptiGUI too old, will crash with MethodNotFoundException or sth because of the breaking changes
+            return;
+        }
+
         InteractionWrapper.setImpl(new InteractionWrapper() {
             private final InteractionService interactionService = Services.getService(InteractionService.class);
 
