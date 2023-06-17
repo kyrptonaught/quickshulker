@@ -3,7 +3,6 @@ package net.kyrptonaught.quickshulker.api;
 import net.kyrptonaught.quickshulker.ItemInventoryContainer;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -11,9 +10,6 @@ import net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
 
 public class Util {
 
@@ -35,20 +31,13 @@ public class Util {
         stack.removeSubNbt(QuickShulkerMod.MOD_ID);
         QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
         if (qsData != null) {
-            if (isBlockBlockingQuickOpen(player.getWorld(), player))
-                return;
             qsData.openConsumer.accept(player, stack);
             ((ItemInventoryContainer) player.currentScreenHandler).setUsedSlot(playerInvIndex);
             player.currentScreenHandler.addListener(forceCloseScreenIfNotPresent(player, playerInvIndex, stack));
         }
     }
 
-    public static boolean isBlockBlockingQuickOpen(World world, PlayerEntity player) {
-        HitResult result = player.raycast(4.5, 0, false);
-        return result instanceof BlockHitResult blockHitResult && !player.world.getBlockState(blockHitResult.getBlockPos()).isAir();
-    }
-
-    public static boolean isOpenableItem(ItemStack stack) {
+    public static Boolean isOpenableItem(ItemStack stack) {
         QuickShulkerData qsdata = QuickOpenableRegistry.getQuickie(stack.getItem());
         if (qsdata == null) return false;
         return qsdata.ignoreSingleStackCheck || stack.getCount() <= 1;

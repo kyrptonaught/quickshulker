@@ -14,7 +14,7 @@ import net.minecraft.screen.slot.Slot;
 public class ClientUtil {
 
     public static boolean CheckAndSend(ItemStack stack, int slot) {
-        if (Util.isOpenableItem(stack) && !Util.isBlockBlockingQuickOpen(MinecraftClient.getInstance().world, MinecraftClient.getInstance().player)) {
+        if (Util.isOpenableItem(stack)) {
             SendOpenPacket(slot);
             return true;
         }

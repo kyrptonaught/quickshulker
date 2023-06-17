@@ -32,6 +32,8 @@ public abstract class ScreenMixin {
     @Final
     protected ScreenHandler handler;
 
+    @Shadow private boolean cancelNextRelease;
+
     @Inject(method = "init", at = @At("TAIL"))
     private void fixMouse(CallbackInfo ci) {
         if (QuickShulkerMod.lastMouseX != 0 && QuickShulkerMod.lastMouseY != 0) {
@@ -55,14 +57,20 @@ public abstract class ScreenMixin {
     private void QS$mousePressed(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         if (QuickShulkerMod.getConfig().rightClickInv) {
             if (this.handler.getCursorStack().isEmpty() && button == 1 && this.focusedSlot != null && this.focusedSlot.getStack().getCount() == 1) {
-                if (handleTrigger())
+                if (handleTrigger()) {
+                    this.cancelNextRelease = true;
                     cir.setReturnValue(true);
+                    return;
+                }
             }
         }
         if (QuickShulkerMod.getConfig().keybingInInv) {
             if (QuickShulkerModClient.getKeybinding().matches(button, InputUtil.Type.MOUSE)) {
-                if (handleTrigger())
+                if (handleTrigger()) {
+                    this.cancelNextRelease = true;
                     cir.setReturnValue(true);
+                    return;
+                }
             }
         }
     }
