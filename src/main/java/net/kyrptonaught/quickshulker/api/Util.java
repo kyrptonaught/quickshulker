@@ -61,7 +61,7 @@ public class Util {
     }
 
     public static boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {
-        return stack1.getItem() == stack2.getItem() && ItemStack.areNbtEqual(stack1, stack2) && stack1.getCount() == stack2.getCount();
+        return ItemStack.areItemsEqual(stack1, stack2) && ItemStack.areEqual(stack1, stack2) && stack1.getCount() == stack2.getCount();
     }
 
     public static ScreenHandlerListener forceCloseScreenIfNotPresent(PlayerEntity player, int slotID, ItemStack stack) {

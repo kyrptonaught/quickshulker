@@ -22,7 +22,7 @@ public abstract class ItemMixin {
     @Inject(method = "onClicked", at = @At("HEAD"), cancellable = true)
     public void QS$onClicked(ItemStack hostStack, ItemStack insertStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference, CallbackInfoReturnable<Boolean> cir) {
         if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingInsert)) {
-            if (!player.world.isClient) {
+            if (!player.getWorld().isClient) {
                 BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
             } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) {//stupid creative menu shiz
                 QuickBundlePacket.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), insertStack);
@@ -35,7 +35,7 @@ public abstract class ItemMixin {
     public void QS$onStackClicked(ItemStack hostStack, Slot slot, ClickType clickType, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         ItemStack insertStack = slot.getStack();
         if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingPickup)) {//bundle stack into held item
-            if (!player.world.isClient) {
+            if (!player.getWorld().isClient) {
                 BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
             } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
                 QuickBundlePacket.BundleIntoHeld.sendPacket(insertStack, hostStack);
@@ -43,7 +43,7 @@ public abstract class ItemMixin {
                 QuickBundlePacket.sendCreativeSlotUpdate(insertStack, slot);
             }
         } else if (BundleHelper.shouldAttemptUnBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingExtract)) {//unbundle held stack into slot
-            if (!player.world.isClient) {
+            if (!player.getWorld().isClient) {
                 BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
             } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
                 QuickBundlePacket.Unbundle.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), hostStack);
