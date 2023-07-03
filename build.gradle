@@ -19,6 +19,7 @@ repositories {
 	maven { url 'https://maven.fabricmc.net' }
 	maven { url 'https://maven.kyrptonaught.dev' }
 	maven { url "https://maven.terraformersmc.com/releases" }
+	maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -35,6 +36,10 @@ dependencies {
 	//shulkerutils
 	modImplementation 'net.kyrptonaught:shulkerutils:1.0.4-1.19'
 	include 'net.kyrptonaught:shulkerutils:1.0.4-1.19'
+
+	//optigui
+	modCompileOnly 'maven.modrinth:optigui:2.1.0-beta.1'
+	modLocalRuntime 'maven.modrinth:optigui:2.1.2'
 }
 
 tasks.withType(JavaCompile).configureEach {
