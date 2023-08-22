@@ -18,5 +18,6 @@
   "key.quickshulker.config.quickShulkerBox": "Enable opening Shulker Boxes",
   "key.quickshulker.config.quickCraftingTable": "Enable opening Crafting Tables",
   "key.quickshulker.config.quickStonecutter": "Enable opening Stonecutter",
-  "key.quickshulker.config.quickEChest": "Enable opening EnderChest"
+  "key.quickshulker.config.quickEChest": "Enable opening EnderChest",
+  "key.quickshulker.config.quickSmithing": "Enable opening Smithing table"
 }
