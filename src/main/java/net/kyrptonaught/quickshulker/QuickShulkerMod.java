@@ -8,10 +8,7 @@ import net.kyrptonaught.quickshulker.api.*;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.kyrptonaught.quickshulker.network.OpenShulkerPacket;
 import net.kyrptonaught.quickshulker.network.QuickBundlePacket;
-import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.block.EnderChestBlock;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.block.StonecutterBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
@@ -85,6 +82,14 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
                     .ignoreSingleStackCheck(true)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), Text.translatable("container.stonecutter")))))
+                    .register();
+
+        if (getConfig().quickSmithing)
+            new QuickOpenableRegistry.Builder()
+                    .setItem(SmithingTableBlock.class)
+                    .ignoreSingleStackCheck(true)
+                    .setOpenAction((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
+                            new SmithingScreenHandler(i, playerInventory, ScreenHandlerContext.create(playerEntity.getEntityWorld(), playerEntity.getBlockPos())), Text.translatable("container.upgrade"))))
                     .register();
     }
 }

@@ -35,5 +35,7 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean quickStonecutter = true;
     @Comment("Enable opening EnderChest")
     public boolean quickEChest = true;
+    @Comment("Enable opening Smithing table")
+    public boolean quickSmithing = true;
 
 }
