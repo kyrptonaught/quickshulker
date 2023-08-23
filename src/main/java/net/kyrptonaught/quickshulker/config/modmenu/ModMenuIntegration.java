@@ -46,6 +46,7 @@ public class ModMenuIntegration implements ModMenuApi {
             enabledSection.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.quickCraftingTable"), options.quickCraftingTables, true).setSaveConsumer(value -> options.quickCraftingTables = value).setRequiresRestart());
             enabledSection.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.quickStonecutter"), options.quickStonecutter, true).setSaveConsumer(value -> options.quickStonecutter = value).setRequiresRestart());
             enabledSection.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.quickEChest"), options.quickEChest, true).setSaveConsumer(value -> options.quickEChest = value).setRequiresRestart());
+            enabledSection.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.quickSmithing"), options.quickSmithing, true).setSaveConsumer(value -> options.quickSmithing = value).setRequiresRestart());
 
             return configScreen;
         };
