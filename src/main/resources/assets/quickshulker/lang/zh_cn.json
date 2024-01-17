@@ -1,10 +1,22 @@
 {
-  "key.categories.quickshulker": "快捷潜影贝",
+  "key.quickshulker.config.category.title": "快捷潜影盒配置",
+  "key.categories.quickshulker": "快捷潜影盒",
   "key.quickshulker.quickshulker": "快速打开手持潜影盒",
   "key.quickshulker.config.category.activation": "激活方法",
   "key.quickshulker.config.keybinding": "按键绑定",
   "key.quickshulker.config.keybind": "手持物品时按指定按键打开物品",
   "key.quickshulker.config.rightClick": "手持物品时右键打开物品",
   "key.quickshulker.config.keybindInInv": "在物品栏中打开鼠标悬停的物品",
-  "key.quickshulker.config.rightClickInInv": "在物品栏中右击打开物品"
+  "key.quickshulker.config.rightClickInInv": "在物品栏中右击打开物品",
+  "key.quickshulker.config.category.options": "设置",
+  "key.quickshulker.config.rightClickClose": "右键打开的潜影盒以关闭",
+  "key.quickshulker.config.category.bundleing": "拓展功能",
+  "key.quickshulker.config.supportsBundlingInsert": "使用潜影盒右键物品放入",
+  "key.quickshulker.config.supportsBundlingPickup": "使用物品右键潜影盒放入",
+  "key.quickshulker.config.supportsBundlingExtract": "使用潜影盒右键空位取出物品",
+  "key.quickshulker.config.category.enabled": "生效的功能",
+  "key.quickshulker.config.quickShulkerBox": "快捷潜影盒",
+  "key.quickshulker.config.quickCraftingTable": "快捷工作台",
+  "key.quickshulker.config.quickStonecutter": "快捷切石机",
+  "key.quickshulker.config.quickEChest": "快捷末影箱"
 }
