@@ -61,6 +61,9 @@ public class BundleHelper {
                 if (amount == 0) return null;
                 transaction.commit();
                 insertStack.decrement((int) amount);
+                if (player.currentScreenHandler instanceof CraftingScreenHandler) {
+                    player.currentScreenHandler.onContentChanged(null);
+                }
                 bundlingInv.onClose(player);
                 return insertStack;
             }
