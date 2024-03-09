@@ -10,6 +10,8 @@ import net.kyrptonaught.shulkerutils.ShulkerUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.ClickType;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -61,6 +63,9 @@ public class BundleHelper {
                 if (amount == 0) return null;
                 transaction.commit();
                 insertStack.decrement((int) amount);
+                if (player.currentScreenHandler instanceof CraftingScreenHandler || player.currentScreenHandler instanceof PlayerScreenHandler) {
+                    player.currentScreenHandler.onContentChanged(null);
+                }
                 bundlingInv.onClose(player);
                 return insertStack;
             }
